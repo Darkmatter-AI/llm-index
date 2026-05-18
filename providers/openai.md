@@ -7,9 +7,11 @@ sources:
   - https://platform.openai.com/docs/models
 ---
 
+[← Home](../) · [Anthropic](anthropic.md) · **OpenAI** · [Google](google.md) · [xAI](xai.md) · [DeepSeek](deepseek.md) · [Mistral](mistral.md)
+
 # OpenAI (GPT)
 
-> Auto-generated from the official sources listed above. If something looks wrong, open an issue.
+**Sources:** [openai.com/api/pricing](https://openai.com/api/pricing/), [platform.openai.com/docs/models](https://platform.openai.com/docs/models)  ·  **Updated:** `2026-05-18T15:48:38Z`
 
 ## Models
 

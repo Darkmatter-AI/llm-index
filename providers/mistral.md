@@ -7,9 +7,11 @@ sources:
   - https://docs.mistral.ai/getting-started/models/models_overview/
 ---
 
+[← Home](../) · [Anthropic](anthropic.md) · [OpenAI](openai.md) · [Google](google.md) · [xAI](xai.md) · [DeepSeek](deepseek.md) · **Mistral**
+
 # Mistral
 
-> Auto-generated from the official sources listed above. If something looks wrong, open an issue.
+**Sources:** [mistral.ai/pricing](https://mistral.ai/pricing), [docs.mistral.ai/getting-started/models/models_overview](https://docs.mistral.ai/getting-started/models/models_overview/)  ·  **Updated:** `2026-05-18T15:48:38Z`
 
 ## Models
 

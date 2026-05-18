@@ -7,9 +7,11 @@ sources:
   - https://x.ai/api
 ---
 
+[← Home](../) · [Anthropic](anthropic.md) · [OpenAI](openai.md) · [Google](google.md) · **xAI** · [DeepSeek](deepseek.md) · [Mistral](mistral.md)
+
 # xAI (Grok)
 
-> Auto-generated from the official sources listed above. If something looks wrong, open an issue.
+**Sources:** [docs.x.ai/docs/models](https://docs.x.ai/docs/models), [x.ai/api](https://x.ai/api)  ·  **Updated:** `2026-05-18T15:48:38Z`
 
 ## Models
 

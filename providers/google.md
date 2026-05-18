@@ -7,9 +7,11 @@ sources:
   - https://ai.google.dev/gemini-api/docs/models
 ---
 
+[← Home](../) · [Anthropic](anthropic.md) · [OpenAI](openai.md) · **Google** · [xAI](xai.md) · [DeepSeek](deepseek.md) · [Mistral](mistral.md)
+
 # Google (Gemini)
 
-> Auto-generated from the official sources listed above. If something looks wrong, open an issue.
+**Sources:** [ai.google.dev/gemini-api/docs/pricing](https://ai.google.dev/gemini-api/docs/pricing), [ai.google.dev/gemini-api/docs/models](https://ai.google.dev/gemini-api/docs/models)  ·  **Updated:** `2026-05-18T15:48:38Z`
 
 ## Models
 

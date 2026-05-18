@@ -6,9 +6,11 @@ sources:
   - https://api-docs.deepseek.com/quick_start/pricing
 ---
 
+[← Home](../) · [Anthropic](anthropic.md) · [OpenAI](openai.md) · [Google](google.md) · [xAI](xai.md) · **DeepSeek** · [Mistral](mistral.md)
+
 # DeepSeek
 
-> Auto-generated from the official sources listed above. If something looks wrong, open an issue.
+**Sources:** [api-docs.deepseek.com/quick_start/pricing](https://api-docs.deepseek.com/quick_start/pricing)  ·  **Updated:** `2026-05-18T15:48:38Z`
 
 ## Models
 

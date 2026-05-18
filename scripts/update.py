@@ -50,9 +50,11 @@ sources:
 {sources_yaml}
 ---
 
+[← Home](../) · {nav}
+
 # {name}{label_suffix}
 
-> Auto-generated from the official sources listed above. If something looks wrong, open an issue.
+**Sources:** {sources_inline}  ·  **Updated:** `{timestamp}`
 
 {body}
 """
@@ -121,6 +123,25 @@ def render_sources_yaml(urls: list[str]) -> str:
     return "\n".join(f"  - {u}" for u in urls)
 
 
+def render_sources_inline(urls: list[str]) -> str:
+    parts = []
+    for u in urls:
+        display = u.replace("https://", "").replace("http://", "").rstrip("/")
+        parts.append(f"[{display}]({u})")
+    return ", ".join(parts)
+
+
+def render_nav(current_slug: str, all_providers: dict) -> str:
+    parts = []
+    for slug, provider in all_providers.items():
+        label = provider["name"]
+        if slug == current_slug:
+            parts.append(f"**{label}**")
+        else:
+            parts.append(f"[{label}]({slug}.md)")
+    return " · ".join(parts)
+
+
 def build_prompt(provider: dict, today: str) -> str:
     return PROMPT.format(
         name=provider["name"],
@@ -158,7 +179,9 @@ def extract(
     return text, in_tok, out_tok
 
 
-def write_page(provider: dict, body: str, timestamp: str) -> Path:
+def write_page(
+    provider: dict, body: str, timestamp: str, all_providers: dict
+) -> Path:
     label = provider.get("label", "")
     label_suffix = f" ({label})" if label and label != provider["name"] else ""
     page = TEMPLATE.format(
@@ -166,12 +189,48 @@ def write_page(provider: dict, body: str, timestamp: str) -> Path:
         slug=provider["slug"],
         timestamp=timestamp,
         sources_yaml=render_sources_yaml(provider["urls"]),
+        sources_inline=render_sources_inline(provider["urls"]),
+        nav=render_nav(provider["slug"], all_providers),
         label_suffix=label_suffix,
         body=body.strip(),
     )
     out = PROVIDERS_DIR / f"{provider['slug']}.md"
     out.write_text(page)
     return out
+
+
+def reflow(sources: dict) -> int:
+    """Re-wrap existing provider markdown with the current TEMPLATE.
+
+    Preserves the body (everything from `## Models` onward) and the existing
+    `last_updated` timestamp. Does not call Gemini — useful after template
+    changes.
+    """
+    reflowed = 0
+    skipped = 0
+    for slug, provider in sources.items():
+        path = PROVIDERS_DIR / f"{slug}.md"
+        if not path.exists():
+            print(f"skip {slug}: no file")
+            skipped += 1
+            continue
+        existing = path.read_text()
+        idx = existing.find("## Models")
+        if idx == -1:
+            print(f"skip {slug}: no '## Models' section")
+            skipped += 1
+            continue
+        body = existing[idx:].rstrip()
+        timestamp = "pending-first-run"
+        for line in existing.splitlines():
+            if line.startswith("last_updated:"):
+                timestamp = line.split(":", 1)[1].strip()
+                break
+        write_page(provider, body, timestamp, sources)
+        print(f"reflowed providers/{slug}.md")
+        reflowed += 1
+    print(f"\n{reflowed} reflowed, {skipped} skipped")
+    return 0
 
 
 def estimate_cost(
@@ -215,14 +274,17 @@ def emit_step_output(key: str, value: str) -> None:
 
 
 def main() -> int:
+    sources = json.loads(SOURCES_PATH.read_text())
+
+    if "--reflow" in sys.argv[1:]:
+        return reflow(sources)
+
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         print("ERROR: GEMINI_API_KEY is not set", file=sys.stderr)
         return 2
 
     model = os.environ.get("GEMINI_MODEL", DEFAULT_MODEL)
-    sources = json.loads(SOURCES_PATH.read_text())
-
     requested = sys.argv[1:]
     if requested:
         unknown = [s for s in requested if s not in sources]
@@ -246,7 +308,7 @@ def main() -> int:
         print(f"→ {slug} ({provider['name']})")
         try:
             body, in_tok, out_tok = extract(client, model, provider, today)
-            path = write_page(provider, body, timestamp)
+            path = write_page(provider, body, timestamp, sources)
             total_in += in_tok
             total_out += out_tok
             num_calls += 1

@@ -7,9 +7,11 @@ sources:
   - https://docs.anthropic.com/en/docs/about-claude/models/overview
 ---
 
+[← Home](../) · **Anthropic** · [OpenAI](openai.md) · [Google](google.md) · [xAI](xai.md) · [DeepSeek](deepseek.md) · [Mistral](mistral.md)
+
 # Anthropic (Claude)
 
-> Auto-generated from the official sources listed above. If something looks wrong, open an issue.
+**Sources:** [www.anthropic.com/pricing](https://www.anthropic.com/pricing), [docs.anthropic.com/en/docs/about-claude/models/overview](https://docs.anthropic.com/en/docs/about-claude/models/overview)  ·  **Updated:** `2026-05-18T15:48:38Z`
 
 ## Models
 
