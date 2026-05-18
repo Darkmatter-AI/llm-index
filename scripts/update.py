@@ -8,8 +8,15 @@
 
 Reads scripts/sources.json, asks Gemini to read each provider's official pricing/models
 pages via the URL-context tool, and rewrites the corresponding providers/<slug>.md.
-After extraction, asks the running Gemini model to estimate the dollar cost of the
-run using its own freshly-extracted Google pricing table.
+After extraction, computes the run's exact dollar cost by:
+
+  1. Summing prompt_token_count + candidates_token_count from each call's
+     usage_metadata (this is what Gemini bills against; URL-context content
+     is already folded into prompt_token_count).
+  2. Parsing the freshly-written providers/google.md for the input/output
+     $/MTok of the running GEMINI_MODEL (correct tier picked from average
+     prompt size).
+  3. Multiplying. No LLM call, no estimation.
 
 Required env:
   GEMINI_API_KEY   API key for Google AI Studio.
@@ -17,18 +24,20 @@ Required env:
 
 Side effects:
   - Writes providers/<slug>.md for each target.
-  - Prints `COST_ESTIMATE: ...` on stdout.
+  - Prints `COST: ...` on stdout.
   - When run under GitHub Actions, appends `cost_estimate=<line>` to $GITHUB_OUTPUT.
 
 Usage:
   uv run scripts/update.py                # update all providers
   uv run scripts/update.py anthropic gpt  # update specific slugs
+  uv run scripts/update.py --reflow       # rewrap existing pages (no Gemini calls)
 """
 
 from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -117,28 +126,6 @@ Rules:
 - If every source URL is unreachable or empty, output exactly: `## Models\\n\\n_Sources unreachable on {today}._\\n\\n## Notes\\n\\n_Sources unreachable on {today}._`
 """
 
-COST_PROMPT = """\
-You are running as the Gemini model `{model}`. You just finished an extraction run that produced one markdown table per AI provider. Estimate the dollar cost of that run.
-
-Inputs you have:
-- Your model id: `{model}`
-- Total prompt tokens consumed across all extraction calls (input): {total_in}
-- Total candidate tokens produced across all extraction calls (output): {total_out}
-- Number of extraction calls: {num_calls}
-- The freshly-extracted Google/Gemini pricing table (your own provider):
-
-<gemini-page>
-{gemini_md}
-</gemini-page>
-
-Look up your model's row in that table, apply the Input and Output prices to the totals above, and pick the correct tier if the model has tiered pricing (assume per-call prompt size of roughly {avg_prompt} input tokens). The `prompt_tokens` count already includes content fetched by the url_context tool, so do not add anything for that.
-
-Output a single line, no other text, no markdown, no code fence:
-
-COST_ESTIMATE: $X.XXXX (model: `{model}`, in: {total_in} tok @ $A.AA/MTok, out: {total_out} tok @ $B.BB/MTok)
-
-If your exact model id is not in the table, pick the closest match and prefix the dollar amount with `~`. Round to 4 decimal places.
-"""
 
 
 def render_sources_yaml(urls: list[str]) -> str:
@@ -255,36 +242,77 @@ def reflow(sources: dict) -> int:
     return 0
 
 
-def estimate_cost(
-    client: genai.Client,
-    model: str,
-    total_in: int,
-    total_out: int,
-    num_calls: int,
+PRICE_RE = re.compile(r"\$([\d,]+\.?\d*)")
+
+
+def find_model_prices(
+    google_md: str, model_id: str, avg_input_tokens: int
+) -> tuple[float, float, str] | None:
+    """Find input/output $/MTok for `model_id` in the Gemini provider page.
+
+    Returns (input_per_mtok, output_per_mtok, tier_label) or None if not found.
+    Handles tiered pricing by picking the row matching `avg_input_tokens`.
+    """
+    matches: list[tuple[list[str], str]] = []
+    for line in google_md.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("|") or "---" in stripped:
+            continue
+        if f"`{model_id}`" not in stripped:
+            continue
+        cells = [c.strip() for c in stripped.strip("|").split("|")]
+        id_cell = cells[1] if len(cells) > 1 else ""
+        tier_match = re.search(r"\(([^)]+)\)", id_cell)
+        tier = tier_match.group(1) if tier_match else ""
+        matches.append((cells, tier))
+
+    if not matches:
+        return None
+
+    chosen_cells, chosen_tier = matches[0]
+    if len(matches) > 1:
+        for cells, tier in matches:
+            if not tier:
+                continue
+            t = tier.replace(" ", "")
+            if ("≤" in t or "<" in t) and avg_input_tokens <= 200_000:
+                chosen_cells, chosen_tier = cells, tier
+                break
+            if (">" in t and "≤" not in t) and avg_input_tokens > 200_000:
+                chosen_cells, chosen_tier = cells, tier
+                break
+
+    prices: list[float] = []
+    for cell in chosen_cells:
+        m = PRICE_RE.fullmatch(cell)
+        if m:
+            prices.append(float(m.group(1).replace(",", "")))
+    if len(prices) < 2:
+        return None
+    return prices[0], prices[1], chosen_tier
+
+
+def compute_cost_line(
+    model: str, total_in: int, total_out: int, num_calls: int
 ) -> str:
     gemini_page = PROVIDERS_DIR / "google.md"
     if not gemini_page.exists():
-        return f"COST_ESTIMATE: unavailable (google.md missing, model: `{model}`)"
-    avg_prompt = (total_in // num_calls) if num_calls else 0
-    prompt = COST_PROMPT.format(
-        model=model,
-        total_in=total_in,
-        total_out=total_out,
-        num_calls=num_calls,
-        avg_prompt=avg_prompt,
-        gemini_md=gemini_page.read_text(),
+        return f"COST: unavailable (google.md missing, model: `{model}`)"
+    avg_input = (total_in // num_calls) if num_calls else 0
+    found = find_model_prices(gemini_page.read_text(), model, avg_input)
+    if not found:
+        return (
+            f"COST: unavailable (model `{model}` not found in google.md; "
+            f"tokens — in:{total_in} out:{total_out})"
+        )
+    in_price, out_price, tier = found
+    cost = (total_in * in_price + total_out * out_price) / 1_000_000
+    tier_part = f", tier: {tier}" if tier else ""
+    return (
+        f"COST: ${cost:.4f} (model: `{model}`, "
+        f"in: {total_in:,} tok @ ${in_price:g}/MTok, "
+        f"out: {total_out:,} tok @ ${out_price:g}/MTok{tier_part})"
     )
-    response = client.models.generate_content(
-        model=model,
-        contents=prompt,
-        config=types.GenerateContentConfig(temperature=0.0),
-    )
-    line = (response.text or "").strip().splitlines()
-    for candidate in line:
-        c = candidate.strip()
-        if c.startswith("COST_ESTIMATE:"):
-            return c
-    return f"COST_ESTIMATE: unavailable (no parseable line, model: `{model}`)"
 
 
 def emit_step_output(key: str, value: str) -> None:
@@ -341,12 +369,9 @@ def main() -> int:
 
     if num_calls:
         print(f"\nTotal tokens — in: {total_in:,}  out: {total_out:,}  calls: {num_calls}")
-        try:
-            estimate = estimate_cost(client, model, total_in, total_out, num_calls)
-        except Exception as exc:  # noqa: BLE001
-            estimate = f"COST_ESTIMATE: unavailable ({exc}, model: `{model}`)"
-        print(estimate)
-        emit_step_output("cost_estimate", estimate)
+        cost_line = compute_cost_line(model, total_in, total_out, num_calls)
+        print(cost_line)
+        emit_step_output("cost_estimate", cost_line)
     else:
         emit_step_output("cost_estimate", "")
 
