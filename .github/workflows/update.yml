@@ -41,11 +41,11 @@ jobs:
         run: |
           git config user.name "llm-index-bot"
           git config user.email "llm-index-bot@users.noreply.github.com"
-          if git diff --quiet -- providers/ data/; then
+          if git diff --quiet -- providers/; then
             echo "No changes to commit."
             exit 0
           fi
-          git add providers/ data/
+          git add providers/
           SUBJECT="chore: refresh provider data ($(date -u +%Y-%m-%d))"
           if [ -n "$COST_ESTIMATE" ]; then
             git commit -m "$SUBJECT" -m "$COST_ESTIMATE"
