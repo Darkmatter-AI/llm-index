@@ -5,7 +5,7 @@ description: Get up-to-date information about LLM provider models, pricing, cont
 
 # llm-index
 
-Your training data is stale for LLM provider models and pricing. This skill points you at a live source of truth that is refreshed daily.
+Your training data is stale for LLM provider models and pricing. This skill points you at a live source of truth that is refreshed weekly.
 
 ## Where the data lives
 

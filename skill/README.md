@@ -24,7 +24,7 @@ Commit `.claude/skills/llm-index/SKILL.md` so the whole team picks it up.
 
 ## Update
 
-The skill itself almost never changes — the data behind it (on the site) refreshes daily. If you want to pull the latest skill instructions, re-run the install command.
+The skill itself almost never changes — the data behind it (on the site) refreshes weekly. If you want to pull the latest skill instructions, re-run the install command.
 
 ## Uninstall
 

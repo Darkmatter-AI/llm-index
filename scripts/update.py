@@ -4,7 +4,7 @@
 #   "google-genai>=1.0.0",
 # ]
 # ///
-"""Daily updater for provider markdown pages.
+"""Weekly updater for provider markdown pages.
 
 Reads scripts/sources.json, asks Gemini to read each provider's official pricing/models
 pages via the URL-context tool, and rewrites the corresponding providers/<slug>.md.

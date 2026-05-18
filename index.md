@@ -5,7 +5,7 @@ title: llm-index
 
 # llm-index
 
-Daily-refreshed catalog of LLM provider models, pricing, and capabilities. Sourced from each provider's official pages by a Gemini extraction pipeline.
+Weekly-refreshed catalog of LLM provider models, pricing, and capabilities. Sourced from each provider's official pages by a Gemini extraction pipeline.
 
 [GitHub repo →](https://github.com/darkmatter-ai/llm-index)
 
