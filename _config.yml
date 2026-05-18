@@ -7,6 +7,8 @@ exclude:
   - skill/
   - .github/
   - README.md
+# data/*.json is served verbatim — agents can fetch the structured
+# source instead of scraping the rendered markdown.
 defaults:
   - scope:
       path: ""
