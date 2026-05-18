@@ -69,20 +69,41 @@ Extract the **current** publicly listed information and produce a markdown **bod
 
 ## Models
 
-A single GitHub-flavored markdown table. Header (use this exact column order):
+Group models into categorized tables under `### <Category>` subheadings. **Include every model the provider publishes pricing for** — chat, realtime, audio, image, speech, embeddings, moderation, fine-tuning base prices, etc. Omit a category only when the provider has zero models in it.
 
-| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
+Use these category headings and column shapes:
 
-One row per generally-available model. Conventions:
-- **Model**: display name (e.g. `Claude Opus 4.7`)
-- **ID**: API identifier in backticks (e.g. `` `claude-opus-4-7` ``), verbatim from docs
-- **Context**: input window in tokens, abbreviated (`200K`, `1M`)
-- **Max Out**: max output tokens, abbreviated, or `—` if not listed
-- **Input / Output / Cached In**: USD per 1M tokens (e.g. `$3.00`). Use `—` when not offered.
-- **Capabilities**: short comma list (`vision, tools, reasoning`). Omit obvious defaults like "text".
-- **Cutoff**: knowledge cutoff `MMM YYYY` (e.g. `Jan 2025`) or `—`
+**`### Chat / completion`** — text-in, text-out language models.
+Columns: `| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |`
 
-Order rows newest/most-capable first. If a model has tiered pricing (e.g. ≤200K vs >200K context), use two rows with the same Model name and a parenthetical tier in the ID column (e.g. `` `claude-opus-4-7` (≤200K) ``).
+**`### Reasoning`** — only if the provider lists reasoning models as a distinct line item with their own prices (otherwise put them in Chat / completion with `reasoning` in Capabilities).
+Same columns as Chat / completion.
+
+**`### Realtime / audio`** — speech-to-speech / live audio models priced per token across modalities.
+Columns: `| Model | ID | Audio In $/MTok | Audio Out $/MTok | Text In $/MTok | Text Out $/MTok | Cached In $/MTok | Notes |`
+
+**`### Image generation`** — text-to-image or image-edit models.
+Columns: `| Model | ID | Text In $/MTok | Image In $/MTok | Image Out $/MTok or $/image | Notes |`
+
+**`### Speech — transcription / TTS / translation`** — STT / TTS models, often priced per minute.
+Columns: `| Model | ID | Input | Output | Unit | Notes |` (Unit values like `$/min`, `$/MTok`, `$/1k chars`)
+
+**`### Embeddings / reranking / moderation`** — vector and classifier models.
+Columns: `| Model | ID | Context | Dimensions | Input $/MTok | Notes |`
+
+**`### Other`** — anything that doesn't fit (search APIs, code-interp, batch-only models, etc.).
+Columns: `| Model | ID | Pricing | Notes |`
+
+General row conventions:
+- **Model**: display name (e.g. `Claude Opus 4.7`, `gpt-realtime-2`)
+- **ID**: API identifier in backticks, verbatim from docs (e.g. `` `claude-opus-4-7` ``)
+- **Context / Max Out**: abbreviated tokens (`200K`, `1M`), or `—` if not listed
+- All `$/MTok` cells: USD per 1M tokens, just the number with `$` prefix (e.g. `$3.00`). Use `—` when not offered.
+- **Capabilities**: short comma list (`vision, tools, reasoning`). Omit "text" — it's the default.
+- **Cutoff**: `MMM YYYY` (e.g. `Jan 2025`) or `—`
+- Tiered pricing: emit one row per tier with the same Model name and a parenthetical tier in the ID column (e.g. `` `claude-opus-4-7` (≤200K) ``).
+
+Order rows newest/most-capable first within each table.
 
 ## Notes
 
@@ -90,8 +111,9 @@ Three to seven one-line bullets covering provider-level facts that matter for pi
 
 Rules:
 - Use only data visible at the URLs above. Do not pull from training data.
-- Keep numbers exact (`$1.25`, not "around a buck"). Currency is USD; the `$/MTok` is in the header so cells just contain the number (`$3.00`).
-- No emojis. No marketing copy. No closing paragraph. No extra sections beyond `## Models` and `## Notes`.
+- **Do not drop any model the provider publishes pricing for.** If a model doesn't fit a column shape, pick the closest category and put the missing detail in Notes.
+- Keep numbers exact (`$1.25`, not "around a buck"). Currency is USD.
+- No emojis. No marketing copy. No closing paragraph. No top-level sections beyond `## Models` and `## Notes`.
 - If every source URL is unreachable or empty, output exactly: `## Models\\n\\n_Sources unreachable on {today}._\\n\\n## Notes\\n\\n_Sources unreachable on {today}._`
 """
 
