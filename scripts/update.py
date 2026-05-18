@@ -42,7 +42,7 @@ from google.genai import types
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES_PATH = ROOT / "scripts" / "sources.json"
 PROVIDERS_DIR = ROOT / "providers"
-DEFAULT_MODEL = "gemini-2.5-pro"
+DEFAULT_MODEL = "gemini-3-flash-preview"
 
 PAGE_TEMPLATE = """\
 ---
