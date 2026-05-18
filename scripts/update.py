@@ -59,6 +59,8 @@ sources:
 
 **Sources:** {sources_inline}  ·  **Updated:** `{timestamp}`
 
+> Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
+
 {body}
 """
 

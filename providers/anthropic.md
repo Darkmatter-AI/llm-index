@@ -13,6 +13,8 @@ sources:
 
 **Sources:** [www.anthropic.com/pricing](https://www.anthropic.com/pricing), [docs.anthropic.com/en/docs/about-claude/models/overview](https://docs.anthropic.com/en/docs/about-claude/models/overview)  ·  **Updated:** `2026-05-18T17:31:04Z`
 
+> Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
+
 ## Models
 
 ### Latest Models

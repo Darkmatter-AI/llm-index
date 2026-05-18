@@ -13,6 +13,8 @@ sources:
 
 **Sources:** [mistral.ai/pricing](https://mistral.ai/pricing), [docs.mistral.ai/getting-started/models/models_overview](https://docs.mistral.ai/getting-started/models/models_overview/)  ·  **Updated:** `2026-05-18T17:31:04Z`
 
+> Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
+
 ## Models
 
 _Note: Per-token API pricing and specific model IDs for the latest models were not available in the provided source URLs. The models listed below are from the provider's documentation._
