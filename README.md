@@ -25,21 +25,27 @@ LLM training cutoffs mean assistants give stale model/pricing info. This repo so
 ## Repo layout
 
 ```
-providers/         # generated markdown, one file per provider
+providers/         # generated markdown, one file per provider — table + notes
 scripts/           # pipeline that updates providers/
   sources.json     # URLs Gemini reads per provider
-  update.py        # Gemini extraction script
+  update.py        # Gemini extraction script (PEP 723 inline deps, run with uv)
 skill/             # installable Claude Code skill that points agents here
 .github/workflows/ # daily cron
 ```
 
 ## Pipeline
 
-Runs daily at 06:00 UTC via `.github/workflows/update.yml`. Reads `scripts/sources.json`, asks Gemini to extract model/pricing data from each provider's official pages using the URL-context tool, and commits any diffs.
+Runs daily at 06:00 UTC via `.github/workflows/update.yml`. Reads `scripts/sources.json`, asks Gemini to extract model/pricing data from each provider's official pages using the URL-context tool, and commits any diffs to `providers/`.
 
-Required repo secret: `GEMINI_API_KEY`.
+The updater declares its dependencies inline (PEP 723) and is run with [uv](https://docs.astral.sh/uv/) — no `requirements.txt`, no virtualenv setup. Local invocation:
 
-To trigger manually: Actions → "Update provider data" → Run workflow.
+```bash
+export GEMINI_API_KEY=...
+uv run scripts/update.py                # all providers
+uv run scripts/update.py anthropic openai
+```
+
+Required repo secret: `GEMINI_API_KEY`. To trigger manually: Actions → "Update provider data" → Run workflow.
 
 ## Skill
 

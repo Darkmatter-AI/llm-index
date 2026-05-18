@@ -1,3 +1,9 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "google-genai>=1.0.0",
+# ]
+# ///
 """Daily updater for provider markdown pages.
 
 Reads scripts/sources.json, asks Gemini to read each provider's official pricing/models
@@ -8,8 +14,8 @@ Required env:
   GEMINI_MODEL     Optional. Defaults to gemini-2.5-pro.
 
 Usage:
-  python scripts/update.py                # update all providers
-  python scripts/update.py anthropic gpt  # update specific slugs
+  uv run scripts/update.py                # update all providers
+  uv run scripts/update.py anthropic gpt  # update specific slugs
 """
 
 from __future__ import annotations
@@ -54,28 +60,30 @@ Extract the **current** publicly listed information and produce a markdown **bod
 
 ## Models
 
-For each generally-available model, an H3 with the model's display name. Under it, a bulleted list:
-- **Model ID**: the exact API identifier (verbatim from docs)
-- **Context window**: input token limit
-- **Max output**: output token limit if listed
-- **Input price**: USD per 1M input tokens
-- **Output price**: USD per 1M output tokens
-- **Cached input price**: USD per 1M cached input tokens, if offered
-- **Capabilities**: vision, tool use, reasoning, audio, etc. — short comma list
-- **Knowledge cutoff**: month/year if listed
-- **Notes**: one short line for anything notable (deprecation date, preview status, regional limits)
+A single GitHub-flavored markdown table. Header (use this exact column order):
 
-Group models in a sensible order (newest/most capable first). Omit fields the provider does not publish — do **not** invent values. If a price is tiered (e.g. by context length), include all tiers as sub-bullets.
+| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
+
+One row per generally-available model. Conventions:
+- **Model**: display name (e.g. `Claude Opus 4.7`)
+- **ID**: API identifier in backticks (e.g. `` `claude-opus-4-7` ``), verbatim from docs
+- **Context**: input window in tokens, abbreviated (`200K`, `1M`)
+- **Max Out**: max output tokens, abbreviated, or `—` if not listed
+- **Input / Output / Cached In**: USD per 1M tokens (e.g. `$3.00`). Use `—` when not offered.
+- **Capabilities**: short comma list (`vision, tools, reasoning`). Omit obvious defaults like "text".
+- **Cutoff**: knowledge cutoff `MMM YYYY` (e.g. `Jan 2025`) or `—`
+
+Order rows newest/most-capable first. If a model has tiered pricing (e.g. ≤200K vs >200K context), use two rows with the same Model name and a parenthetical tier in the ID column (e.g. `` `claude-opus-4-7` (≤200K) ``).
 
 ## Notes
 
-A short bulleted list of provider-level facts that matter for picking a model: batch API discounts, prompt-caching mechanics, fine-tuning availability, free tiers, regional restrictions, deprecation policies. Three to seven bullets, each one line.
+Three to seven one-line bullets covering provider-level facts that matter for picking a model: batch API discounts, prompt-caching mechanics, fine-tuning availability, free tiers, regional restrictions, deprecation policies. Plain bullets, no sub-bullets.
 
 Rules:
 - Use only data visible at the URLs above. Do not pull from training data.
-- Keep numbers exact (`$1.25 / 1M tokens`, not "around a buck").
-- No emojis. No marketing copy. No closing paragraph.
-- If a page is unreachable or empty, write a single line under the relevant section: `_Source unreachable on {today}._`
+- Keep numbers exact (`$1.25`, not "around a buck"). Currency is USD; the `$/MTok` is in the header so cells just contain the number (`$3.00`).
+- No emojis. No marketing copy. No closing paragraph. No extra sections beyond `## Models` and `## Notes`.
+- If every source URL is unreachable or empty, output exactly: `## Models\\n\\n_Sources unreachable on {today}._\\n\\n## Notes\\n\\n_Sources unreachable on {today}._`
 """
 
 
