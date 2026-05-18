@@ -73,22 +73,11 @@ Category = Literal[
     "other",
 ]
 
-PriceKind = Literal[
-    "input",
-    "output",
-    "cached_input",
-    "cache_write",
-    "cache_read",
-    "audio_input",
-    "audio_output",
-    "text_input",
-    "text_output",
-    "image_input",
-    "image_output",
-    "cached_audio_input",
-    "cached_text_input",
-    "cached_image_input",
-]
+# PriceKind is intentionally open (free string). The prompt lists the
+# canonical kinds we render with first-class tables; anything else
+# (e.g. `request`, `video_input`, provider-specific shapes) falls
+# through to the "Other" renderer and is preserved in data/<slug>.json.
+PriceKind = str
 
 
 class Price(BaseModel):
@@ -153,7 +142,7 @@ Return ONLY a single raw JSON object as your entire response — no `\`\`\`json`
       "cutoff": "Jan 2025" | null,
       "prices": [
         {{
-          "kind": "input" | "output" | "cached_input" | "cache_write" | "cache_read" | "audio_input" | "audio_output" | "text_input" | "text_output" | "image_input" | "image_output" | "cached_audio_input" | "cached_text_input" | "cached_image_input",
+          "kind": "input" | "output" | "cached_input" | "cache_write" | "cache_read" | "audio_input" | "audio_output" | "text_input" | "text_output" | "image_input" | "image_output" | "video_input" | "video_output" | "cached_audio_input" | "cached_text_input" | "cached_image_input" | "request" | "...other if those don't fit...",
           "amount": 1.25,
           "unit": "1M tokens" | "minute" | "image" | "1k characters" | "request",
           "tier": "" | "≤200K" | ">200K" | "...whatever the provider uses...",
