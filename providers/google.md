@@ -1,7 +1,7 @@
 ---
 provider: Google
 slug: google
-last_updated: 2026-05-18T15:35:15Z
+last_updated: 2026-05-18T15:48:38Z
 sources:
   - https://ai.google.dev/gemini-api/docs/pricing
   - https://ai.google.dev/gemini-api/docs/models
@@ -13,61 +13,22 @@ sources:
 
 ## Models
 
-### Gemini 3.1 Pro
-- **Model ID**: gemini-3.1-pro-preview
-- **Input price**: 
-    - $2.00 / 1M tokens (prompts <= 200k tokens)
-    - $4.00 / 1M tokens (prompts > 200k tokens)
-- **Output price**:
-    - $12.00 / 1M tokens (prompts <= 200k tokens)
-    - $18.00 / 1M tokens (prompts > 200k)
-- **Cached input price**:
-    - $0.20 / 1M tokens (prompts <= 200k tokens)
-    - $0.40 / 1M tokens (prompts > 200k)
-- **Capabilities**: vision, tool use, reasoning, audio
-- **Notes**: Preview model.
-
-### Gemini 3.1 Flash-Lite
-- **Model ID**: gemini-3.1-flash-lite
-- **Input price**: $0.25 / 1M tokens (text / image / video), $0.50 / 1M tokens (audio)
-- **Output price**: $1.50 / 1M tokens
-- **Cached input price**: $0.025 / 1M tokens (text / image / video), $0.05 / 1M tokens (audio)
-- **Capabilities**: vision, tool use, reasoning, audio
-
-### Gemini 2.5 Pro
-- **Model ID**: gemini-2.5-pro
-- **Context window**: 1M tokens
-- **Input price**:
-    - $1.25 / 1M tokens (prompts <= 200k tokens)
-    - $2.50 / 1M tokens (prompts > 200k tokens)
-- **Output price**:
-    - $10.00 / 1M tokens (prompts <= 200k tokens)
-    - $15.00 / 1M tokens (prompts > 200k)
-- **Cached input price**:
-    - $0.125 / 1M tokens (prompts <= 200k tokens)
-    - $0.25 / 1M tokens (prompts > 200k)
-- **Capabilities**: vision, tool use, reasoning, audio, coding
-
-### Gemini 2.5 Flash
-- **Model ID**: gemini-2.5-flash
-- **Context window**: 1M tokens
-- **Input price**: $0.30 / 1M tokens (text / image / video), $1.00 / 1M tokens (audio)
-- **Output price**: $2.50 / 1M tokens
-- **Cached input price**: $0.03 / 1M tokens (text / image / video), $0.10 / 1M tokens (audio)
-- **Capabilities**: vision, tool use, reasoning, audio
-
-### Gemini 2.5 Flash-Lite
-- **Model ID**: gemini-2.5-flash-lite
-- **Input price**: $0.10 / 1M tokens (text / image / video), $0.30 / 1M tokens (audio)
-- **Output price**: $0.40 / 1M tokens
-- **Cached input price**: $0.01 / 1M tokens (text / image / video), $0.03 / 1M tokens (audio)
-- **Capabilities**: vision, tool use, reasoning, audio
+| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Gemini 3.1 Pro | `` `gemini-3.1-pro-preview` (>200K) `` | >200K | — | $4.00 | $18.00 | $0.40 | vision, tools | — |
+| Gemini 3.1 Pro | `` `gemini-3.1-pro-preview` (≤200K) `` | 200K | — | $2.00 | $12.00 | $0.20 | vision, tools | — |
+| Gemini 2.5 Pro | `` `gemini-2.5-pro` (>200K) `` | >200K | — | $2.50 | $15.00 | $0.25 | vision, reasoning, coding | — |
+| Gemini 2.5 Pro | `` `gemini-2.5-pro` (≤200K) `` | 200K | — | $1.25 | $10.00 | $0.125 | vision, reasoning, coding | — |
+| Gemini 2.5 Flash | `` `gemini-2.5-flash` `` | 1M | — | $0.30 | $2.50 | $0.03 | vision, audio | — |
+| Gemini 3.1 Flash-Lite | `` `gemini-3.1-flash-lite` `` | — | — | $0.25 | $1.50 | $0.025 | vision, audio | — |
+| Gemini 2.5 Flash-Lite | `` `gemini-2.5-flash-lite` `` | — | — | $0.10 | $0.40 | $0.01 | vision, audio | — |
 
 ## Notes
-- The Batch API offers a 50% cost reduction on requests.
-- Context caching is available on the paid tier for select models to reduce input costs.
-- A free tier is available with limited access to certain models.
-- Deprecated models will be shut down after a notice period; users must migrate to newer models.
-- Preview models may change before becoming stable and have more restrictive rate limits.
-- Tokens for PDF documents are billed at the same rate as image tokens.
-- Usage of Google AI Studio is free of charge in all available regions.
+
+*   A free tier is available with limited access to certain models.
+*   The Batch API offers a 50% cost reduction on standard pricing.
+*   Context caching is available on the paid tier to reduce costs for frequently used prefixes.
+*   Preview models may change and will be deprecated with at least two weeks' notice.
+*   Some models support grounding with Google Search and Google Maps, which may incur separate charges.
+*   Model availability is subject to specified regions.
+*   Deprecated models, such as Gemini 2.0 Flash, have published shutdown dates.

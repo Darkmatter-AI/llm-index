@@ -1,7 +1,7 @@
 ---
 provider: Mistral
 slug: mistral
-last_updated: 2026-05-18T15:35:15Z
+last_updated: 2026-05-18T15:48:38Z
 sources:
   - https://mistral.ai/pricing
   - https://docs.mistral.ai/getting-started/models/models_overview/
@@ -13,41 +13,24 @@ sources:
 
 ## Models
 
-### Mistral Large 3
-- **Capabilities**: multimodal, general-purpose
-- **Notes**: A state-of-the-art, open-weight model.
-
-### Devstral 2
-- **Capabilities**: code agents, software engineering
-- **Notes**: A frontier model for solving software engineering tasks.
-
-### Mistral Medium 3.5
-- **Capabilities**: multimodal, agentic, coding
-- **Notes**: A frontier-class model optimized for agentic and coding use cases.
-
-### Mistral Small 4
-- **Capabilities**: instruct, reasoning, coding
-- **Notes**: A hybrid model unifying capabilities in a single efficient model.
-
-### Codestral
-- **Capabilities**: code completion
-
-### Ministral 3 14B
-- **Capabilities**: text, vision
-
-### Ministral 3 8B
-- **Capabilities**: text, vision
-
-### Ministral 3 3B
-- **Capabilities**: text, vision
-- **Notes**: A tiny and efficient model.
-
-### Mistral Embed
-- **Capabilities**: semantic representation of code
+| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
+|---|---|---|---|---|---|---|---|---|
+| Mistral Small 4 | — | — | — | — | — | — | reasoning, code | Mar 2026 |
+| Devstral 2 | — | — | — | — | — | — | code, tools | Dec 2025 |
+| Mistral Large 3 | — | — | — | — | — | — | multimodal | Dec 2025 |
+| Ministral 3 14B | — | — | — | — | — | — | vision | Dec 2025 |
+| Ministral 3 8B | — | — | — | — | — | — | vision | Dec 2025 |
+| Ministral 3 3B | — | — | — | — | — | — | vision | Dec 2025 |
+| Magistral Medium 1.2 | — | — | — | — | — | — | multimodal, reasoning | Sep 2025 |
+| Mistral Medium 3.1 | — | — | — | — | — | — | multimodal | Aug 2025 |
+| Mistral Medium 3 | — | — | — | — | — | — | multimodal | May 2025 |
+| Mistral Medium 3.5 | — | — | — | — | — | — | multimodal, code, tools | — |
+| Mistral Nemo 12B | — | — | — | — | — | — | multilingual | Jul 2024 |
 
 ## Notes
-- Per-token API pricing and model-specific details like context window, max output tokens, and model IDs are not available on the provided URLs.
-- Mistral maintains a list of legacy models with their scheduled deprecation and retirement dates.
-- Models can be used via Mistral's cloud or through self-deployment.
-- Enterprise solutions are available, offering private deployments with custom models and tools.
-- A free tier is offered via the "Le Chat" personal AI assistant.
+
+*   A free plan is available for the Le Chat assistant.
+*   Enterprise solutions are offered for private deployments and custom models.
+*   Mistral provides options for self-hosting models.
+*   A public deprecation schedule outlines when older models will be retired.
+*   In addition to generalist models, Mistral offers specialist models for domains like coding, moderation, and audio.

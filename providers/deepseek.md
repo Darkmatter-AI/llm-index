@@ -1,7 +1,7 @@
 ---
 provider: DeepSeek
 slug: deepseek
-last_updated: 2026-05-18T15:35:15Z
+last_updated: 2026-05-18T15:48:38Z
 sources:
   - https://api-docs.deepseek.com/quick_start/pricing
 ---
@@ -12,33 +12,14 @@ sources:
 
 ## Models
 
-### DeepSeek V4 Pro
-
-- **Model ID**: `deepseek-v4-pro`
-- **Context window**: 1M tokens
-- **Max output**: 384K tokens
-- **Input price**: $0.435 / 1M tokens
-- **Output price**: $0.87 / 1M tokens
-- **Cached input price**: $0.003625 / 1M tokens
-- **Capabilities**: Json Output, Tool Calls, Chat Prefix Completion, FIM Completion
-- **Notes**: Pricing reflects a 75% discount extended until 2026/05/31 15:59 UTC.
-
-### DeepSeek V4 Flash
-
-- **Model ID**: `deepseek-v4-flash`
-- **Context window**: 1M tokens
-- **Max output**: 384K tokens
-- **Input price**: $0.14 / 1M tokens
-- **Output price**: $0.28 / 1M tokens
-- **Cached input price**: $0.0028 / 1M tokens
-- **Capabilities**: Json Output, Tool Calls, Chat Prefix Completion, FIM Completion
-- **Notes**: The model names `deepseek-chat` and `deepseek-reasoner` will be deprecated and correspond to this model's non-thinking and thinking modes.
+| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| DeepSeek V4 Pro | `` `deepseek-v4-pro` `` | 1M | 384K | $0.435 | $0.87 | $0.003625 | JSON, tools, prefix completion, FIM | — |
+| DeepSeek V4 Flash | `` `deepseek-v4-flash` `` | 1M | 384K | $0.14 | $0.28 | $0.0028 | JSON, tools, prefix completion, FIM | — |
 
 ## Notes
 
-- Billing is based on the total number of input and output tokens.
-- Fees are deducted from a topped-up balance or a granted balance, with granted balances used first.
-- The input cache hit price for all models was reduced to 1/10 of the original launch price on 2026/4/26.
-- The `deepseek-v4-pro` model is offered at a 75% discount until May 31, 2026.
-- The API is available in both OpenAI and Anthropic formats.
-- The `deepseek-chat` and `deepseek-reasoner` model aliases are being deprecated in favor of `deepseek-v4-flash`.
+*   The `deepseek-v4-pro` model is offered at a 75% discount, which is extended until 2026/05/31 15:59 UTC.
+*   All models feature context caching, with a significantly reduced price for cached input tokens (cache hits).
+*   The model names `deepseek-chat` and `deepseek-reasoner` are being deprecated and will be replaced by `deepseek-v4-flash`.
+*   Fees are deducted from a user's topped-up or granted balance, with granted balances being used first.
