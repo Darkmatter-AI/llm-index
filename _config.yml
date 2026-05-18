@@ -1,0 +1,14 @@
+title: llm-index
+description: Daily-refreshed catalog of LLM provider models, pricing, and capabilities.
+theme: jekyll-theme-minimal
+markdown: kramdown
+exclude:
+  - scripts/
+  - skill/
+  - .github/
+  - README.md
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

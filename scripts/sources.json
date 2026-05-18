@@ -1,0 +1,55 @@
+{
+  "anthropic": {
+    "name": "Anthropic",
+    "slug": "anthropic",
+    "label": "Claude",
+    "urls": [
+      "https://www.anthropic.com/pricing",
+      "https://docs.anthropic.com/en/docs/about-claude/models/overview"
+    ]
+  },
+  "openai": {
+    "name": "OpenAI",
+    "slug": "openai",
+    "label": "GPT",
+    "urls": [
+      "https://openai.com/api/pricing/",
+      "https://platform.openai.com/docs/models"
+    ]
+  },
+  "google": {
+    "name": "Google",
+    "slug": "google",
+    "label": "Gemini",
+    "urls": [
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/models"
+    ]
+  },
+  "xai": {
+    "name": "xAI",
+    "slug": "xai",
+    "label": "Grok",
+    "urls": [
+      "https://docs.x.ai/docs/models",
+      "https://x.ai/api"
+    ]
+  },
+  "deepseek": {
+    "name": "DeepSeek",
+    "slug": "deepseek",
+    "label": "DeepSeek",
+    "urls": [
+      "https://api-docs.deepseek.com/quick_start/pricing"
+    ]
+  },
+  "mistral": {
+    "name": "Mistral",
+    "slug": "mistral",
+    "label": "Mistral",
+    "urls": [
+      "https://mistral.ai/pricing",
+      "https://docs.mistral.ai/getting-started/models/models_overview/"
+    ]
+  }
+}
