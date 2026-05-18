@@ -45,11 +45,10 @@ jobs:
             exit 0
           fi
           git add providers/
-          MSG="chore: refresh provider data ($(date -u +%Y-%m-%d))"
+          SUBJECT="chore: refresh provider data ($(date -u +%Y-%m-%d))"
           if [ -n "$COST_ESTIMATE" ]; then
-            MSG="$MSG
-
-$COST_ESTIMATE"
+            git commit -m "$SUBJECT" -m "$COST_ESTIMATE"
+          else
+            git commit -m "$SUBJECT"
           fi
-          git commit -m "$MSG"
           git push
