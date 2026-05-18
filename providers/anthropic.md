@@ -1,7 +1,7 @@
 ---
 provider: Anthropic
 slug: anthropic
-last_updated: 2026-05-18T17:18:48Z
+last_updated: 2026-05-18T17:31:04Z
 sources:
   - https://www.anthropic.com/pricing
   - https://docs.anthropic.com/en/docs/about-claude/models/overview
@@ -11,40 +11,56 @@ sources:
 
 # Anthropic (Claude)
 
-**Sources:** [www.anthropic.com/pricing](https://www.anthropic.com/pricing), [docs.anthropic.com/en/docs/about-claude/models/overview](https://docs.anthropic.com/en/docs/about-claude/models/overview)  ·  **Updated:** `2026-05-18T17:18:48Z`  ·  [JSON](../data/anthropic.json)
+**Sources:** [www.anthropic.com/pricing](https://www.anthropic.com/pricing), [docs.anthropic.com/en/docs/about-claude/models/overview](https://docs.anthropic.com/en/docs/about-claude/models/overview)  ·  **Updated:** `2026-05-18T17:31:04Z`
 
 ## Models
 
-### Chat / completion
+### Latest Models
 
-| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Sonnet 4.6 | `claude-sonnet-4-6` | 1M | 64K | $3 | $15 | $0.3 | vision, tools | Aug 2025 |
-| Claude Sonnet 4.5 | `claude-sonnet-4-5` | — | — | $3 | $15 | $0.3 | vision, tools | — |
-| Claude Sonnet 4 | `claude-sonnet-4` | — | — | $3 | $15 | $0.3 | vision, tools | — |
+| Model | Model ID | Capabilities | Input $/MTok | Output $/MTok |
+| :--- | :--- | :--- | :--- | :--- |
+| Claude Opus 4.7 | `claude-opus-4-7` | vision, agentic coding, complex reasoning | $5.00 | $25.00 |
+| Claude Sonnet 4.6 | `claude-sonnet-4-6` | vision | $3.00 | $15.00 |
+| Claude Haiku 4.5 | `claude-haiku-4-5-20251001` | vision | $1.00 | $5.00 |
 
-### Reasoning
+### Legacy Models
 
-| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Opus 4.7 | `claude-opus-4-7` | 1M | 128K | $5 | $25 | $0.5 | vision, tools, reasoning | Jan 2026 |
-| Claude Opus 4.6 | `claude-opus-4-6` | — | — | $5 | $25 | $0.5 | vision, tools, reasoning | — |
-| Claude Opus 4.5 | `claude-opus-4-5` | — | — | $5 | $25 | $0.5 | vision, tools, reasoning | — |
-| Claude Opus 4.1 | `claude-opus-4-1` | — | — | $15 | $75 | $1.5 | vision, tools, reasoning | — |
-| Claude Opus 4 | `claude-opus-4` | — | — | $15 | $75 | $1.5 | vision, tools, reasoning | — |
+| Model | Input $/MTok | Output $/MTok |
+| :--- | :--- | :--- |
+| Opus 4.6 | $5.00 | $25.00 |
+| Sonnet 4.5 | $3.00 | $15.00 |
+| Opus 4.5 | $5.00 | $25.00 |
+| Opus 4.1 | $15.00 | $75.00 |
+| Sonnet 4 | $3.00 | $15.00 |
+| Opus 4 | $15.00 | $75.00 |
 
-### Realtime / audio
+### Prompt Caching
 
-| Model | ID | Audio In $/MTok | Audio Out $/MTok | Text In $/MTok | Text Out $/MTok | Cached In $/MTok | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Haiku 4.5 | `claude-haiku-4-5-20251001` | — | — | $1 | $5 | — | Fastest, most cost-efficient model. |
+| Model | Write $/MTok | Read $/MTok |
+| :--- | :--- | :--- |
+| Opus 4.7 | $6.25 | $0.50 |
+| Sonnet 4.6 | $3.75 | $0.30 |
+| Haiku 4.5 | $1.25 | $0.10 |
+| Opus 4.6 | $6.25 | $0.50 |
+| Sonnet 4.5 | $3.75 | $0.30 |
+| Opus 4.5 | $6.25 | $0.50 |
+| Opus 4.1 | $18.75 | $1.50 |
+| Sonnet 4 | $3.75 | $0.30 |
+| Opus 4 | $18.75 | $1.50 |
+
+### Additional Services
+
+| Service | Rate |
+| :--- | :--- |
+| Managed Agents | $0.08 per session-hour (active runtime) |
+| Web search | $10.00 / 1K searches |
+| Code execution | $0.05 per hour per container (after 50 free hours daily per org) |
 
 ## Notes
 
-- Batch processing offers a 50% discount on API usage for asynchronous workloads.
-- US-only inference is available at 1.1x pricing for input and output tokens.
-- Prompt caching has a default 5-minute Time-To-Live (TTL), with extended options available.
-- Anthropic maintains a model deprecation schedule, with details available on their documentation site.
-- Additional platform features are priced separately: Managed Agents ($0.08/session-hour), Web search ($10/1k searches), and Code execution ($0.05/hour after a daily free tier).
-- Fine-tuning is not offered as a generally available, priced feature on the provided pages.
-
+*   Asynchronous workloads using the Batch API receive a 50% discount on token prices.
+*   US-only data residency is available for input and output tokens at a 1.1x price multiplier.
+*   Prompt caching is available to reduce costs for repeated prefixes; rates are based on a 5-minute TTL.
+*   Anthropic maintains a model deprecation policy and provides guidance for upgrading between model versions.
+*   Service tiers (Priority, Standard, Batch) are available to balance performance, availability, and cost.
+*   Model IDs are pinned snapshots; dateless formats (e.g., `claude-opus-4-7`) are also fixed snapshots, not evergreen pointers.

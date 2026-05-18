@@ -1,7 +1,7 @@
 ---
 provider: xAI
 slug: xai
-last_updated: 2026-05-18T17:18:48Z
+last_updated: 2026-05-18T17:31:04Z
 sources:
   - https://docs.x.ai/docs/models
   - https://x.ai/api
@@ -11,46 +11,32 @@ sources:
 
 # xAI (Grok)
 
-**Sources:** [docs.x.ai/docs/models](https://docs.x.ai/docs/models), [x.ai/api](https://x.ai/api)  ·  **Updated:** `2026-05-18T17:18:48Z`  ·  [JSON](../data/xai.json)
+**Sources:** [docs.x.ai/docs/models](https://docs.x.ai/docs/models), [x.ai/api](https://x.ai/api)  ·  **Updated:** `2026-05-18T17:31:04Z`
 
 ## Models
 
-### Chat / completion
+### Chat
+| Model | Context Window | Input Price | Output Price | Capabilities |
+| --- | --- | --- | --- | --- |
+| `grok-4.3` | 1,000,000 tokens | $1.25 / 1M tokens | $2.50 / 1M tokens | tool calling |
 
-| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Grok 4.3 | `grok-4.3` | 1M | — | $1.25 | $2.5 | — | tools, reasoning | Nov 2024 |
-| Grok 4.20 Non-Reasoning | `grok-4.20-non-reasoning` | 2M | — | $1.25 | $2.5 | — | — | Nov 2024 |
+### Voice
+| Service | Price | Unit |
+| --- | --- | --- |
+| Agent | $3.00 | per hour |
+| Text-to-Speech (TTS) | $15.00 | per 1M characters |
+| Speech-to-Text (STT) | $0.10 | per hour |
 
-### Reasoning
-
-| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Grok 4.20 Reasoning | `grok-4.20-reasoning` | 2M | — | $1.25 | $2.5 | — | tools, reasoning | Nov 2024 |
-
-### Image generation
-
-| Model | ID | Text In $/MTok | Image In $/MTok | Image Out | Unit | Notes |
-| --- | --- | --- | --- | --- | --- | --- |
-| Imagine API - Image | `imagine-api-image` | — | — | $0.02 | $/image | Turn ideas into reality with image and video generation. |
-
-### Video generation
-
-| Model | ID | Pricing | Notes |
+### Image & Video
+| Service | Quality | Price | Unit |
 | --- | --- | --- | --- |
-| Imagine API - Video | `imagine-api-video` | output: $0.05/second | Turn ideas into reality with image and video generation. |
-
-### Speech — transcription / TTS / translation
-
-| Model | ID | Input | Output | Unit | Notes |
-| --- | --- | --- | --- | --- | --- |
-| Voice API | `voice-api` | — | — | $/MTok | Real-time conversations, speech-to-text, and text-to-speech. |
+| Image Generation | 1K / 2K | $0.02 | per image |
+| Video Generation | 480p / 720p | $0.05 | per second |
 
 ## Notes
-
-- The API is compatible with OpenAI and Anthropic's SDKs, allowing for easy migration.
-- Several older models are scheduled for retirement on May 15, 2026. Requests to these models will be redirected to grok-4.3 and charged accordingly.
-- The knowledge cut-off date for Grok 4 models is November, 2024.
-- Enterprise features include SSO, audit logging, authorization controls, and compliance with standards like SOC 2 Type 2 and GDPR.
-- To incorporate real-time data, server-side search tools (Web Search / X Search) must be enabled.
-
+- Several older models were retired on May 15, 2026, including `grok-4-1-fast`, `grok-4-fast`, `grok-4`, `grok-code-fast-1`, and `grok-imagine-image-pro`. Requests to these models will be redirected to `grok-4.3`.
+- The knowledge cut-off date for Grok 3 and Grok 4 models is November, 2024.
+- Models can be accessed via aliases. For example, `<modelname>` points to the latest stable version, while `<modelname>-latest` points to the newest version.
+- Image inputs support `jpg/jpeg` or `png` file types with a maximum size of 20MiB per image.
+- Chat models do not have a required role order for `system`, `user`, or `assistant` messages.
+- To access real-time data, server-side search tools like Web Search or X Search must be enabled.

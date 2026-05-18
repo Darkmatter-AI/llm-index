@@ -1,7 +1,7 @@
 ---
 provider: OpenAI
 slug: openai
-last_updated: 2026-05-18T16:11:16Z
+last_updated: 2026-05-18T17:31:04Z
 sources:
   - https://openai.com/api/pricing/
   - https://platform.openai.com/docs/models
@@ -11,23 +11,56 @@ sources:
 
 # OpenAI (GPT)
 
-**Sources:** [openai.com/api/pricing](https://openai.com/api/pricing/), [platform.openai.com/docs/models](https://platform.openai.com/docs/models)  ·  **Updated:** `2026-05-18T16:11:16Z`
+**Sources:** [openai.com/api/pricing](https://openai.com/api/pricing/), [platform.openai.com/docs/models](https://platform.openai.com/docs/models)  ·  **Updated:** `2026-05-18T17:31:04Z`
 
 ## Models
 
-| Model | ID | Context | Max Out | Input $/MTok | Output $/MTok | Cached In $/MTok | Capabilities | Cutoff |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| GPT-5.5 | `` `gpt-5.5` `` | 1M | 128K | $5.00 | $30.00 | $0.50 | vision, tools, web search, file search, computer use | Dec 2025 |
-| GPT-5.4 | `` `gpt-5.4` `` | 1M | 128K | $2.50 | $15.00 | $0.25 | vision, tools, web search, file search, computer use | Aug 2025 |
-| GPT-5.4 mini | `` `gpt-5.4-mini` `` | 400K | 128K | $0.75 | $4.50 | $0.075 | vision, tools, web search, file search, computer use | Aug 2025 |
-| GPT-Image-2 | `` `gpt-image-2` `` | — | — | $5.00 | — | $1.25 | vision, image generation | — |
-| GPT-Realtime-2 | `` `gpt-realtime-2` `` | — | — | $4.00 | $24.00 | $0.40 | vision, audio, speech | — |
+### Frontier Models
+
+Our frontier models are designed for complex, multi-step problems.
+
+| Model | Input | Cached Input | Output | Context Window | Capabilities |
+| --- | --- | --- | --- | --- | --- |
+| `gpt-5.5` | $5.00 / MTok | $0.50 / MTok | $30.00 / MTok | 1M tokens | vision, tools, reasoning |
+| `gpt-5.4` | $2.50 / MTok | $0.25 / MTok | $15.00 / MTok | 1M tokens | vision, tools, reasoning |
+| `gpt-5.4-mini` | $0.75 / MTok | $0.075 / MTok | $4.50 / MTok | 400K tokens | vision, tools, reasoning |
+
+### Multimodal
+
+These models power applications across text, image, and audio.
+
+| Model | Modality | Input Price | Cached Input Price | Output Price |
+| --- | --- | --- | --- | --- |
+| `gpt-realtime-2` | Audio | $32.00 / MTok | $0.40 / MTok | $64.00 / MTok |
+| | Text | $4.00 / MTok | $0.40 / MTok | $24.00 / MTok |
+| | Image | $5.00 / MTok | $0.50 / MTok | |
+
+| Model | Price |
+| --- | --- |
+| `gpt-realtime-translate` | $0.034 / minute |
+| `gpt-realtime-whisper` | $0.017 / minute |
+
+### Image Generation
+
+| Model | Modality | Input Price | Cached Input Price | Output Price |
+| --- | --- | --- | --- | --- |
+| `gpt-image-2` | Image | $8.00 / MTok | $2.00 / MTok | $30.00 / MTok |
+| | Text | $5.00 / MTok | $1.25 / MTok | |
+
+### Tools
+
+Tools extend model capabilities with retrieval, execution, and external data access.
+
+| Tool | Price |
+| --- | --- |
+| Web search | $10.00 / 1k calls |
+| Containers | $0.03 / GB per 20-minute session |
 
 ## Notes
 
-* The Batch API provides a 50% discount on inputs and outputs for asynchronous tasks that complete within 24 hours.
-* Prompt caching is available at a reduced rate for repeated input tokens.
-* Several models are available for fine-tuning to optimize for specific use cases.
-* A "Flex processing" service tier offers lower costs for non-production tasks in exchange for slower response times.
-* Data residency options are available for an additional 10% cost on standard processing rates.
-* OpenAI provides documentation and migration guides for deprecated models.
+- The Batch API provides a 50% discount on standard input and output pricing for asynchronous tasks.
+- Using cached inputs for repeated prompts results in a significant price reduction compared to standard input tokens.
+- Data residency and regional processing are available for a 10% surcharge on standard processing rates.
+- In addition to standard processing, OpenAI offers Priority processing for higher throughput and Flex processing for lower costs on non-production tasks.
+- Enterprise offerings with SLAs, lower latency, and reserved capacity are available by contacting sales.
+- For pricing purposes, images are converted into tokens, with rates varying by model.
