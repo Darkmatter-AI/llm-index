@@ -137,7 +137,7 @@ You are populating a public reference dataset for the AI provider **{name}** ({l
 Read these official pages with the url_context tool and extract every model the provider currently lists pricing for:
 {urls}
 
-Return ONLY a single JSON object — no markdown fence, no commentary, no explanation. The object must match this exact shape:
+Return ONLY a single raw JSON object as your entire response — no `\`\`\`json` fence, no `\`\`\`` fence, no prose before or after, no commentary, no explanation. The very first character of your response must be `{{` and the very last must be `}}`. The object must match this exact shape:
 
 {{
   "notes": ["...3-7 short provider-level facts (batch discounts, fine-tuning, prompt-caching mechanics, free tiers, regional restrictions, deprecation policies)..."],
@@ -517,6 +517,25 @@ def build_prompt(provider: dict, today: str) -> str:
     )
 
 
+def parse_json_lenient(text: str) -> dict:
+    """Parse JSON from Gemini text output, tolerating markdown code fences."""
+    s = text.strip()
+    # Strip ``` / ```json fences if present
+    if s.startswith("```"):
+        s = s.split("\n", 1)[1] if "\n" in s else s[3:]
+        if s.endswith("```"):
+            s = s[: -3]
+        s = s.strip()
+    try:
+        return json.loads(s)
+    except json.JSONDecodeError:
+        pass
+    start, end = s.find("{"), s.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        return json.loads(s[start : end + 1])
+    raise RuntimeError(f"could not parse JSON; head: {text[:200]!r}")
+
+
 def extract(
     client: genai.Client, model: str, provider: dict, today: str
 ) -> tuple[ProviderData, int, int, int]:
@@ -532,24 +551,19 @@ def extract(
             response = client.models.generate_content(
                 model=model,
                 contents=build_prompt(provider, today),
+                # Note: response_mime_type="application/json" can't be combined
+                # with the url_context tool ("Tool use with a response mime
+                # type: 'application/json' is unsupported"). The prompt itself
+                # demands JSON and we parse + validate in Python below.
                 config=types.GenerateContentConfig(
                     tools=[types.Tool(url_context=types.UrlContext())],
-                    response_mime_type="application/json",
                     temperature=0.1,
                 ),
             )
             text = (response.text or "").strip()
             if not text:
                 raise RuntimeError(f"empty response for {provider['slug']}")
-            try:
-                raw = json.loads(text)
-            except json.JSONDecodeError as je:
-                # Try to recover: find first { and last } and re-parse
-                start, end = text.find("{"), text.rfind("}")
-                if start != -1 and end != -1 and end > start:
-                    raw = json.loads(text[start : end + 1])
-                else:
-                    raise RuntimeError(f"non-JSON response: {je}; head: {text[:200]!r}")
+            raw = parse_json_lenient(text)
             try:
                 data = ProviderData.model_validate(raw)
             except ValidationError as ve:
