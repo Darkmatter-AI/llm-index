@@ -29,11 +29,14 @@ jobs:
           enable-cache: true
 
       - name: Run updater
+        id: update
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: uv run scripts/update.py ${{ github.event.inputs.providers }}
 
       - name: Commit changes
+        env:
+          COST_ESTIMATE: ${{ steps.update.outputs.cost_estimate }}
         run: |
           git config user.name "llm-index-bot"
           git config user.email "llm-index-bot@users.noreply.github.com"
@@ -42,5 +45,11 @@ jobs:
             exit 0
           fi
           git add providers/
-          git commit -m "chore: refresh provider data ($(date -u +%Y-%m-%d))"
+          MSG="chore: refresh provider data ($(date -u +%Y-%m-%d))"
+          if [ -n "$COST_ESTIMATE" ]; then
+            MSG="$MSG
+
+$COST_ESTIMATE"
+          fi
+          git commit -m "$MSG"
           git push
