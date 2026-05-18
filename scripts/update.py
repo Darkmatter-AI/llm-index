@@ -39,6 +39,7 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -170,22 +171,43 @@ def usage_of(response) -> tuple[int, int]:
     )
 
 
+RETRYABLE_MARKERS = ("503", "429", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "DEADLINE_EXCEEDED")
+RETRY_BACKOFF_SECONDS = (10, 30, 90)
+
+
+def is_retryable(exc: BaseException) -> bool:
+    msg = str(exc)
+    return any(marker in msg for marker in RETRYABLE_MARKERS)
+
+
 def extract(
     client: genai.Client, model: str, provider: dict, today: str
 ) -> tuple[str, int, int]:
-    response = client.models.generate_content(
-        model=model,
-        contents=build_prompt(provider, today),
-        config=types.GenerateContentConfig(
-            tools=[types.Tool(url_context=types.UrlContext())],
-            temperature=0.1,
-        ),
-    )
-    text = (response.text or "").strip()
-    if not text:
-        raise RuntimeError(f"empty response for {provider['slug']}")
-    in_tok, out_tok = usage_of(response)
-    return text, in_tok, out_tok
+    last_err: BaseException | None = None
+    for attempt, wait in enumerate([0, *RETRY_BACKOFF_SECONDS]):
+        if wait:
+            print(f"  retrying in {wait}s (attempt {attempt + 1}/{len(RETRY_BACKOFF_SECONDS) + 1})")
+            time.sleep(wait)
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=build_prompt(provider, today),
+                config=types.GenerateContentConfig(
+                    tools=[types.Tool(url_context=types.UrlContext())],
+                    temperature=0.1,
+                ),
+            )
+            text = (response.text or "").strip()
+            if not text:
+                raise RuntimeError(f"empty response for {provider['slug']}")
+            in_tok, out_tok = usage_of(response)
+            return text, in_tok, out_tok
+        except Exception as exc:  # noqa: BLE001
+            last_err = exc
+            if not is_retryable(exc):
+                raise
+            print(f"  transient error: {str(exc)[:120]}", file=sys.stderr)
+    raise last_err  # type: ignore[misc]
 
 
 def write_page(

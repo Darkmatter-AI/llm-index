@@ -35,6 +35,7 @@ jobs:
         run: uv run scripts/update.py ${{ github.event.inputs.providers }}
 
       - name: Commit changes
+        if: ${{ !cancelled() }}
         env:
           COST_ESTIMATE: ${{ steps.update.outputs.cost_estimate }}
         run: |
