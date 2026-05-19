@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en-US' }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,maximum-scale=2">
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  {% seo %}
+  <style>
+    .llmi-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0 0 1.5rem;
+      padding: 0;
+      list-style: none;
+    }
+    .llmi-actions a,
+    .llmi-actions button {
+      font: inherit;
+      font-size: 0.85em;
+      line-height: 1.2;
+      padding: 0.4em 0.85em;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      background: #f6f8fa;
+      color: #24292f;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+    }
+    .llmi-actions a:hover,
+    .llmi-actions button:hover:not(:disabled) {
+      background: #eaeef2;
+      text-decoration: none;
+    }
+    .llmi-actions button:disabled {
+      opacity: 0.75;
+      cursor: default;
+    }
+    .llmi-actions svg {
+      width: 14px;
+      height: 14px;
+      flex: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-lg px-3 my-5 markdown-body">
+    {% if site.title and site.title != page.title %}<h1>{{ site.title }}</h1>{% endif %}
+
+    {% assign md_path = '/' | append: page.path | relative_url %}
+    <div class="llmi-actions" aria-label="Markdown actions">
+      <a href="{{ md_path }}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M14.5 3h-13A1.5 1.5 0 0 0 0 4.5v7A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 14.5 3Zm0 1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5h13ZM2 6h2.5l1.5 2 1.5-2H10v4H8.5V7.75L7 9.75 5.5 7.75V10H4V7l-2 3V6Zm10 0h1.5v2H15l-2 2.5L11 8h1.5V6Z"/></svg>
+        View Markdown
+      </a>
+      <button type="button" data-md-url="{{ md_path }}" onclick="llmiCopyMd(this)">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+        <span data-label>Copy Markdown</span>
+      </button>
+    </div>
+
+    {{ content }}
+
+    {% if site.github.private != true and site.github.license %}
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. {% github_edit_link "Improve this page" %}.
+      </div>
+    {% endif %}
+  </div>
+  <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
+  <script>
+    async function llmiCopyMd(btn) {
+      const url = btn.dataset.mdUrl;
+      const label = btn.querySelector('[data-label]');
+      const original = label.textContent;
+      btn.disabled = true;
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('fetch failed: ' + res.status);
+        const text = await res.text();
+        await navigator.clipboard.writeText(text);
+        label.textContent = 'Copied!';
+      } catch (e) {
+        label.textContent = 'Copy failed';
+      }
+      setTimeout(() => { label.textContent = original; btn.disabled = false; }, 1800);
+    }
+  </script>
+</body>
+</html>
