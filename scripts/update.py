@@ -193,6 +193,9 @@ RETRYABLE_MARKERS = (
     "RESOURCE_EXHAUSTED",
     "DEADLINE_EXCEEDED",
     "INVALID_ARGUMENT",  # url_context occasionally 400s when many fetches are requested
+    "Server disconnected",  # transient transport errors
+    "ConnectError",
+    "ReadTimeout",
 )
 RETRY_BACKOFF_SECONDS = (10, 30, 90)
 
