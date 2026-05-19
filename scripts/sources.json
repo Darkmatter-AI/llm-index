@@ -5,7 +5,7 @@
     "label": "Claude",
     "urls": [
       "https://www.anthropic.com/pricing",
-      "https://docs.anthropic.com/en/docs/about-claude/models/overview"
+      "https://platform.claude.com/docs/en/docs/about-claude/models/overview"
     ]
   },
   "openai": {

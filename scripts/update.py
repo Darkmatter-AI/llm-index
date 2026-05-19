@@ -66,23 +66,55 @@ sources:
 
 EXTRACT_PROMPT = """\
 You are the editor of a public reference page for the AI provider **{name}** ({label}).
+This page is consumed by AI coding agents and engineers picking a model. **Completeness and specificity are more important than brevity.** A reader must never have to click through to the provider's site to learn what a model supports.
+
+## Sources
 
 Read these official pages using the url_context tool:
 {urls}
 
-Write the **body** of the markdown page (no frontmatter, no top-level H1, no `# {name}` heading — we add those). You decide the structure, headings, tables, and column shapes — whatever best fits this provider's pricing. Some guidance:
+**Follow links.** Provider sites usually have a top-level pricing/models index and a *per-model spec page* for each model (e.g. Google has `ai.google.dev/gemini-api/docs/models/<model-id>`, OpenAI has `platform.openai.com/docs/models/<model-id>`, Anthropic has per-model rows in the models overview). After reading the index, fetch the per-model page for **every** model you list so you can capture its inputs, outputs, context window, knowledge cutoff, and feature matrix. Use the url_context tool repeatedly if needed.
 
-- Include **every** model the provider publishes pricing for. Chat, reasoning, realtime / audio, image generation, video generation, speech (STT / TTS / translation), embeddings, moderation, fine-tuning base fees, anything else. Don't drop a model because it doesn't fit a column shape — give it its own table or section.
-- Group models into `### <Category>` subsections under a top-level `## Models` heading. Pick category names that match what the provider actually publishes.
-- Use GFM markdown tables. Choose columns that fit the modality (e.g. chat models want Input/Output $/MTok; speech models want $/min; image models want $/image or token rates per modality). Be exact — never round prices.
-- For tiered pricing (e.g. ≤200K vs >200K context), emit one row per tier.
-- Show model IDs in backticks, verbatim from the docs.
-- Capabilities: short comma list (`vision, tools, reasoning`). Skip "text" — it's the default.
-- End with a `## Notes` heading and 3–7 short bullets covering provider-level facts that matter for picking a model: batch discounts, prompt-caching mechanics, fine-tuning availability, free tiers, regional restrictions, deprecation policies.
+## Output shape
 
-Rules:
-- Use only data visible at the URLs above. Do not pull from training data.
-- USD only. No emojis, no marketing copy, no closing paragraph.
+Write only the **body** of the markdown page (no frontmatter, no top-level H1, no `# {name}` heading — we add those). Structure:
+
+1. `## Models` — group models into `### <Category>` subsections (Chat / Reasoning / Realtime / Image / Video / Speech / Embeddings / Specialized / Deprecated, whatever the provider actually publishes). Use category names the provider uses when reasonable.
+2. `## Notes` — 4–10 short bullets at the end covering provider-level facts (batch discount %, prompt-cache mechanics & TTL, free tier, regional/data-residency options, deprecation policy, rate-limit tiers, tool/billing extras).
+
+## Mandatory per-model data — text/chat/reasoning models
+
+For **every** chat, reasoning, realtime, audio-understanding, or vision model, the page MUST surface ALL of the following. Split across two tables per category if one table gets too wide — do not drop columns.
+
+- **Model ID** — exact string in backticks, verbatim from the docs.
+- **Aliases / snapshots** — every other ID the model is reachable by (e.g. dateless alias `claude-sonnet-4-6`, `-latest` suffixes, Bedrock IDs, Vertex IDs, dated snapshot pins like `-20251001`). One column or sub-list; do not silently drop any.
+- **Inputs** — explicit comma list of accepted modalities: `text`, `image`, `audio`, `video`, `PDF`, `code`. Never write just "vision" — list every input modality the docs claim.
+- **Outputs** — modalities the model can return: `text`, `audio`, `image`. Default is `text`; still write it.
+- **Context window** — max input tokens, exact number (e.g. `1,048,576`).
+- **Max output** — max output tokens per call, exact number (e.g. `65,536`). If a higher cap is available via a beta header or batch endpoint, note it in parentheses.
+- **Knowledge cutoff** — month + year as stated in the docs (e.g. `Jan 2025`). If the docs distinguish *reliable knowledge cutoff* vs *training data cutoff*, list both. If not documented, write `—`.
+- **Release stage** — `Stable`, `Preview`, `Experimental`, or `Deprecated`. For deprecated models, include the announced shutdown / retirement date.
+- **Languages** — number of supported languages or named list, exactly as the docs state. Write `—` if not documented.
+- **Capabilities** — explicit comma list pulled from the per-model "Supported features" matrix. Include every supported feature the docs name: `function calling`, `structured outputs`, `streaming`, `system instructions`, `caching` / `prompt caching`, `batch`, `code execution`, `file search`, `search grounding`, `URL context`, `thinking` / `extended thinking` / `adaptive thinking` / `reasoning`, `live API`, `web search`, `computer use`, `image generation`, `audio generation`, `fine-tuning`, `flex inference`, `priority inference`, `grounding with Google Maps`, `vision`, `multilingual`, etc. **Do not collapse this to `vision, tools`.** If the docs explicitly say a feature is *not* supported, you may add a short `Not: <feature>` qualifier.
+- **Latency tier / SLA** — what service tiers the model supports (e.g. `Standard`, `Priority`, `Flex`, `Batch`, `Scale`) and the published comparative latency class if any (`Fastest` / `Fast` / `Moderate`).
+- **Rate limits** — if the docs publish per-tier RPM/TPM caps for this model (e.g. Free / Tier 1 / Tier 2 / Tier 3 / Tier 4 / Tier 5, or Trial / Pay-as-you-go), include them. A compact sub-table like `Tier: RPM / TPM / RPD` is fine. If only an overall provider-wide limits page is published (not per model), summarise in `## Notes` instead and write `see Notes` here.
+- **Pricing** — input $/MTok, cached-input $/MTok (if offered), output $/MTok. For tiered pricing (e.g. ≤200K vs >200K context, standard vs batch vs priority, regional multipliers), emit one row per tier and label the tier clearly. Never round; copy the exact decimal.
+
+## Mandatory per-model data — other modalities
+
+- **Image generation**: model ID, inputs (text / image / image+mask), output resolution(s), price per image *and* per token if both are billed, batch discount if any.
+- **Video generation**: model ID, max duration, supported resolutions, price per second per resolution, audio-on/off pricing if separated.
+- **Speech / TTS / STT / translation**: model ID, direction, supported languages count if stated, price per minute *and* per MTok if dual-billed.
+- **Embeddings**: model ID, output dimensions (and whether Matryoshka/reducible), max input tokens, supported input modalities (text / image / audio / video / code), price per MTok per modality.
+- **Moderation / fine-tuning / specialized (computer use, robotics, deep research, etc.)**: model ID, what it does in one phrase, all pricing components.
+
+## Hard rules
+
+- Include **every** model the provider lists with public pricing or spec details. Do **not** drop a model because it doesn't fit a column shape — give it its own table or row.
+- Show model IDs in backticks, verbatim. Preserve dated suffixes (`-12-2025`, `-preview`, etc.).
+- Use GFM markdown tables. Exact prices — never round.
+- USD only. No emojis. No marketing copy. No opening or closing paragraph.
+- Use only data visible at the URLs (index + per-model pages). Do not pull from training data. If a field is not in the docs, write `—` (em-dash), do not guess.
 - If every source URL is unreachable, output exactly: `## Models\\n\\n_Sources unreachable on {today}._\\n\\n## Notes\\n\\n_Sources unreachable on {today}._`
 """
 
