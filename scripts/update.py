@@ -337,7 +337,7 @@ def main() -> int:
         print("ERROR: GEMINI_API_KEY is not set", file=sys.stderr)
         return 2
 
-    model = os.environ.get("GEMINI_MODEL", DEFAULT_MODEL)
+    model = os.environ.get("GEMINI_MODEL") or DEFAULT_MODEL
     requested = sys.argv[1:]
     if requested:
         unknown = [s for s in requested if s not in sources]

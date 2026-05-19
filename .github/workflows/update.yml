@@ -9,6 +9,10 @@ on:
         description: "Space-separated provider slugs (blank = all)"
         required: false
         default: ""
+      model:
+        description: "GEMINI_MODEL override (blank = default)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -32,6 +36,7 @@ jobs:
         id: update
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ github.event.inputs.model }}
         run: uv run scripts/update.py ${{ github.event.inputs.providers }}
 
       - name: Commit changes
