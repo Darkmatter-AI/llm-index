@@ -73,7 +73,7 @@ This page is consumed by AI coding agents and engineers picking a model. **Compl
 Read these official pages using the url_context tool:
 {urls}
 
-**Follow links.** Provider sites usually have a top-level pricing/models index and a *per-model spec page* for each model (e.g. Google has `ai.google.dev/gemini-api/docs/models/<model-id>`, OpenAI has `platform.openai.com/docs/models/<model-id>`, Anthropic has per-model rows in the models overview). After reading the index, fetch the per-model page for **every** model you list so you can capture its inputs, outputs, context window, knowledge cutoff, and feature matrix. Use the url_context tool repeatedly if needed.
+**Follow links when useful.** Provider sites usually have a top-level pricing/models index and a *per-model spec page* for each model (e.g. Google has `ai.google.dev/gemini-api/docs/models/<model-id>`, OpenAI has `platform.openai.com/docs/models/<model-id>`, Anthropic has per-model rows in the models overview). Read the index pages first; if you find a per-model spec page that has fields the index doesn't expose (modalities, context window, knowledge cutoff, feature matrix), fetch it too via the url_context tool. Stay under ~20 url_context fetches per call — if a provider has many models, prioritise the index plus the spec pages for the *latest 1–2 generations* and rely on the index for older/deprecated models.
 
 ## Output shape
 
@@ -186,7 +186,14 @@ def usage_of(response) -> tuple[int, int, int]:
     )
 
 
-RETRYABLE_MARKERS = ("503", "429", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "DEADLINE_EXCEEDED")
+RETRYABLE_MARKERS = (
+    "503",
+    "429",
+    "UNAVAILABLE",
+    "RESOURCE_EXHAUSTED",
+    "DEADLINE_EXCEEDED",
+    "INVALID_ARGUMENT",  # url_context occasionally 400s when many fetches are requested
+)
 RETRY_BACKOFF_SECONDS = (10, 30, 90)
 
 
