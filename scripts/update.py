@@ -112,7 +112,8 @@ For **every** chat, reasoning, realtime, audio-understanding, or vision model, t
 
 - Include **every** model the provider lists with public pricing or spec details. Do **not** drop a model because it doesn't fit a column shape — give it its own table or row.
 - Show model IDs in backticks, verbatim. Preserve dated suffixes (`-12-2025`, `-preview`, etc.).
-- Use GFM markdown tables. Exact prices — never round.
+- Use GFM markdown tables. Exact prices — never round. **Always leave a blank line between any heading (`###`, `####`) or bold label (`**Foo**`) and the table row that follows it** — kramdown (the renderer) collapses the table to plain text otherwise.
+- Prefer `####` subheadings over bold labels when you need to subdivide a `###` section. Reserve bold labels for inline emphasis.
 - USD only. No emojis. No marketing copy. No opening or closing paragraph.
 - Use only data visible at the URLs (index + per-model pages). Do not pull from training data. If a field is not in the docs, write `—` (em-dash), do not guess.
 - If every source URL is unreachable, output exactly: `## Models\\n\\n_Sources unreachable on {today}._\\n\\n## Notes\\n\\n_Sources unreachable on {today}._`
@@ -141,6 +142,32 @@ COST: $X.XXXX (model: `{model}`, in: <N> tok @ $A/MTok, out: <N> tok @ $B/MTok, 
 
 If your exact model id is not in the page, pick the closest match and prefix the dollar amount with `~`. Round to 4 decimal places.
 """
+
+
+def normalize_body(body: str) -> str:
+    """Insert a blank line between a heading or bold label and an immediately
+    following GFM table row. kramdown (Jekyll's default renderer) needs the
+    blank line or the whole block renders as paragraph text with literal pipes.
+    """
+    lines = body.splitlines()
+    out: list[str] = []
+    for i, line in enumerate(lines):
+        out.append(line)
+        if i + 1 >= len(lines):
+            continue
+        nxt = lines[i + 1]
+        if not nxt.startswith("|"):
+            continue
+        stripped = line.strip()
+        is_heading = stripped.startswith("#")
+        is_bold_label = (
+            stripped.startswith("**")
+            and stripped.endswith("**")
+            and len(stripped) > 4
+        )
+        if is_heading or is_bold_label:
+            out.append("")
+    return "\n".join(out)
 
 
 def render_sources_yaml(urls: list[str]) -> str:
@@ -248,7 +275,7 @@ def write_page(provider: dict, body: str, timestamp: str, all_providers: dict) -
         sources_inline=render_sources_inline(provider["urls"]),
         nav=render_nav(provider["slug"], all_providers),
         label_suffix=label_suffix,
-        body=body.strip(),
+        body=normalize_body(body.strip()),
     )
     out = PROVIDERS_DIR / f"{provider['slug']}.md"
     out.write_text(page)

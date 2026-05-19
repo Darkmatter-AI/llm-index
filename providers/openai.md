@@ -80,6 +80,7 @@ Older flagship models and experimental previews.
 ### Specialized Models
 
 **Embeddings**
+
 | Model ID | Output Dimensions | Max Input | Modalities | Price per MTok |
 | :--- | :--- | :--- | :--- | :--- |
 | `text-embedding-3-small` | 1536 (Matryoshka) | 8,191 | text | $0.02 |
@@ -87,6 +88,7 @@ Older flagship models and experimental previews.
 | `text-embedding-ada-002` | 1536 | 8,191 | text | $0.10 |
 
 **Audio (Non-Realtime)**
+
 | Model ID | Direction | Supported Languages | Price |
 | :--- | :--- | :--- | :--- |
 | `whisper-1` | STT / Translation | 98+ | $0.006 / minute |
@@ -96,6 +98,7 @@ Older flagship models and experimental previews.
 | `gpt-4o-transcribe` | STT | — | — |
 
 **Moderation**
+
 | Model ID | Function | Pricing |
 | :--- | :--- | :--- |
 | `omni-moderation-latest` | Multimodal content safety | Free for OpenAI API traffic |

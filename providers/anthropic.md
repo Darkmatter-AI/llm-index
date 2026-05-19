@@ -79,11 +79,13 @@ The first generation to support native vision and tool use across all model size
 | `claude-3-haiku-20240307` | 0.25 | 1.25 | Fastest |
 
 ### Specialized & Research
+
 | Model ID | Description | Inputs | Outputs | Context Window | Release Stage | Pricing |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `claude-mythos-preview` | Defensive cybersecurity research model (Project Glasswing). | `text`, `image`, `code` | `text` | — | Experimental | Invitation-only |
 
 ### Legacy Models
+
 | Model ID | Inputs | Outputs | Context Window | Max Output | Release Stage | Pricing (In/Out $/MTok) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `claude-2.1` | `text` | `text` | 200,000 | 4,096 | Deprecated | 8.00 / 24.00 |
