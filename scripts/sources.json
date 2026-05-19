@@ -47,7 +47,6 @@
     "slug": "mistral",
     "label": "Mistral",
     "urls": [
-      "https://mistral.ai/pricing",
       "https://docs.mistral.ai/getting-started/models/models_overview/"
     ]
   }
