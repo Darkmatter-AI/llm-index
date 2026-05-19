@@ -31,8 +31,7 @@
     "slug": "xai",
     "label": "Grok",
     "urls": [
-      "https://docs.x.ai/docs/models",
-      "https://x.ai/api"
+      "https://docs.x.ai/docs/models"
     ]
   },
   "deepseek": {
