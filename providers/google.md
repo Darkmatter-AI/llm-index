@@ -1,7 +1,7 @@
 ---
 provider: Google
 slug: google
-last_updated: 2026-05-18T17:31:04Z
+last_updated: 2026-05-19T11:37:42Z
 sources:
   - https://ai.google.dev/gemini-api/docs/pricing
   - https://ai.google.dev/gemini-api/docs/models
@@ -11,105 +11,100 @@ sources:
 
 # Google (Gemini)
 
-**Sources:** [ai.google.dev/gemini-api/docs/pricing](https://ai.google.dev/gemini-api/docs/pricing), [ai.google.dev/gemini-api/docs/models](https://ai.google.dev/gemini-api/docs/models)  ·  **Updated:** `2026-05-18T17:31:04Z`
+**Sources:** [ai.google.dev/gemini-api/docs/pricing](https://ai.google.dev/gemini-api/docs/pricing), [ai.google.dev/gemini-api/docs/models](https://ai.google.dev/gemini-api/docs/models)  ·  **Updated:** `2026-05-19T11:37:42Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
 ## Models
 
-### Gemini
+### Gemini 3.x Series (Chat / Reasoning)
 
-| Model | Tier | Input | Output | Capabilities |
-| --- | --- | --- | --- | --- |
-| `gemini-3.1-pro-preview` | ≤200k tokens | $2.00 / 1M tokens | $12.00 / 1M tokens | vision, tools, reasoning |
-| `gemini-3.1-pro-preview` | >200k tokens | $4.00 / 1M tokens | $18.00 / 1M tokens | vision, tools, reasoning |
-| `gemini-3-flash-preview` | Text/Image/Video | $0.50 / 1M tokens | $3.00 / 1M tokens | vision, tools, reasoning |
-| `gemini-3-flash-preview` | Audio | $1.00 / 1M tokens | $3.00 / 1M tokens | audio, vision, tools, reasoning |
-| `gemini-3.1-flash-lite` | Text/Image/Video | $0.25 / 1M tokens | $1.50 / 1M tokens | vision, tools |
-| `gemini-3.1-flash-lite` | Audio | $0.50 / 1M tokens | $1.50 / 1M tokens | audio, vision, tools |
-| `gemini-2.5-pro` | ≤200k tokens | $1.25 / 1M tokens | $10.00 / 1M tokens | vision, tools, reasoning, coding |
-| `gemini-2.5-pro` | >200k tokens | $2.50 / 1M tokens | $15.00 / 1M tokens | vision, tools, reasoning, coding |
-| `gemini-2.5-flash` | Text/Image/Video | $0.30 / 1M tokens | $2.50 / 1M tokens | vision, tools, reasoning |
-| `gemini-2.5-flash` | Audio | $1.00 / 1M tokens | $2.50 / 1M tokens | audio, vision, tools, reasoning |
-| `gemini-2.5-flash-lite` | Text/Image/Video | $0.10 / 1M tokens | $0.40 / 1M tokens | vision, tools |
-| `gemini-2.5-flash-lite` | Audio | $0.30 / 1M tokens | $0.40 / 1M tokens | audio, vision, tools |
-| `gemini-2.0-flash` | Text/Image/Video | $0.10 / 1M tokens | $0.40 / 1M tokens | vision, tools |
-| `gemini-2.0-flash` | Audio | $0.70 / 1M tokens | $0.40 / 1M tokens | audio, vision, tools |
-| `gemini-2.0-flash-lite` | All Modalities | $0.075 / 1M tokens | $0.30 / 1M tokens | vision, tools |
+| Model ID | Aliases / Snapshots | Inputs | Outputs | Context Window | Max Output | Release Stage | Capabilities |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `gemini-3.1-pro-preview` | `gemini-3.1-pro-preview-customtools`, `gemini-pro-latest` | text, image, audio, video, PDF, code | text | 2,000,000 | 8,192 | Preview | function calling, structured outputs, streaming, system instructions, caching, batch, code execution, grounding with Google Search, grounding with Google Maps, custom tools |
+| `gemini-3.1-flash-lite` | `gemini-3.1-flash-lite-preview`, `gemini-flash-latest` | text, image, audio, video, PDF, code | text | 1,048,576 | 8,192 | Stable | function calling, structured outputs, streaming, system instructions, caching, batch, code execution, grounding with Google Search, grounding with Google Maps |
+| `gemini-3-flash-preview` | — | text, image, audio, video, PDF, code | text | 1,048,576 | 8,192 | Preview | function calling, structured outputs, streaming, system instructions, caching, batch, code execution, grounding with Google Search, grounding with Google Maps |
+
+| Model ID | Latency Tier | Pricing (Input / MTok) | Pricing (Cached / MTok) | Pricing (Output / MTok) |
+| :--- | :--- | :--- | :--- | :--- |
+| `gemini-3.1-pro-preview` | Standard, Batch, Flex, Priority | $2.00 (≤200k)<br>$4.00 (>200k) | $0.20 (≤200k)<br>$0.40 (>200k) | $12.00 (≤200k)<br>$18.00 (>200k) |
+| `gemini-3.1-flash-lite` | Standard, Batch, Flex, Priority | $0.25 (text/img/vid)<br>$0.50 (audio) | $0.025 (text/img/vid)<br>$0.05 (audio) | $1.50 |
+| `gemini-3-flash-preview` | Standard, Batch, Flex, Priority | $0.50 (text/img/vid)<br>$1.00 (audio) | $0.05 (text/img/vid)<br>$0.10 (audio) | $3.00 |
+
+### Gemini 2.5 Series (Chat / Reasoning)
+
+| Model ID | Aliases / Snapshots | Inputs | Outputs | Context Window | Max Output | Release Stage | Capabilities |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `gemini-2.5-pro` | — | text, image, audio, video, PDF, code | text | 2,000,000 | 8,192 | Stable | function calling, structured outputs, streaming, system instructions, caching, batch, code execution, grounding with Google Search, grounding with Google Maps |
+| `gemini-2.5-flash` | — | text, image, audio, video, PDF, code | text | 1,048,576 | 8,192 | Stable | function calling, structured outputs, streaming, system instructions, caching, batch, code execution, grounding with Google Search, grounding with Google Maps, thinking budgets |
+| `gemini-2.5-flash-lite` | `gemini-2.5-flash-lite-preview-09-2025` | text, image, audio, video, PDF, code | text | 1,048,576 | 8,192 | Stable | function calling, structured outputs, streaming, system instructions, caching, batch, code execution, grounding with Google Search, grounding with Google Maps |
+
+| Model ID | Latency Tier | Pricing (Input / MTok) | Pricing (Cached / MTok) | Pricing (Output / MTok) |
+| :--- | :--- | :--- | :--- | :--- |
+| `gemini-2.5-pro` | Standard, Batch, Flex, Priority | $1.25 (≤200k)<br>$2.50 (>200k) | $0.125 (≤200k)<br>$0.25 (>200k) | $10.00 (≤200k)<br>$15.00 (>200k) |
+| `gemini-2.5-flash` | Standard, Batch, Flex, Priority | $0.30 (text/img/vid)<br>$1.00 (audio) | $0.03 (text/img/vid)<br>$0.10 (audio) | $2.50 |
+| `gemini-2.5-flash-lite` | Standard, Batch, Flex, Priority | $0.10 (text/img/vid)<br>$0.30 (audio) | $0.01 (text/img/vid)<br>$0.03 (audio) | $0.40 |
+
+### Realtime & Audio
+
+| Model ID | Direction | Inputs | Outputs | Release Stage | Capabilities | Pricing |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `gemini-3.1-flash-live-preview` | Multimodal | text, audio, image, video | text, audio | Preview | Live API, real-time dialogue, acoustic nuance detection | Input: $0.75/MTok (text), $3.00/MTok (audio), $1.00/MTok (img/vid)<br>Output: $4.50/MTok (text), $12.00/MTok (audio) |
+| `gemini-3.1-flash-tts-preview` | TTS | text | audio | Preview | controllable speech generation, expressive audio tags | Input: $1.00/MTok (text)<br>Output: $20.00/MTok (audio) |
+| `gemini-2.5-flash-native-audio-preview-12-2025` | Multimodal | text, audio, video | text, audio | Preview | Live API, native audio reasoning | Input: $0.50/MTok (text), $3.00/MTok (audio/vid)<br>Output: $2.00/MTok (text), $12.00/MTok (audio) |
+| `gemini-2.5-flash-preview-tts` | TTS | text | audio | Preview | controllable text-to-speech | Input: $0.50/MTok (text)<br>Output: $10.00/MTok (audio) |
+| `gemini-2.5-pro-preview-tts` | TTS | text | audio | Preview | high-fidelity speech synthesis | Input: $1.00/MTok (text)<br>Output: $20.00/MTok (audio) |
 
 ### Image Generation
 
-| Model | Input | Output |
-| --- | --- | --- |
-| `gemini-3-pro-image-preview` | $2.00 / 1M tokens (text/image) | $12.00 / 1M tokens (text), $120.00 / 1M tokens (images) |
-| `gemini-3.1-flash-image-preview` | $0.50 / 1M tokens (text/image) | $3.00 / 1M tokens (text), $60.00 / 1M tokens (images) |
-| `gemini-2.5-flash-image` | $0.30 / 1M tokens (text/image) | $0.039 / image |
-| `imagen-4.0-fast-generate-001` | - | $0.02 / image |
-| `imagen-4.0-generate-001` | - | $0.04 / image |
-| `imagen-4.0-ultra-generate-001` | - | $0.06 / image |
+| Model ID | Inputs | Output Resolution | Release Stage | Pricing |
+| :--- | :--- | :--- | :--- | :--- |
+| `imagen-4.0-fast-generate-001` | text | Up to 2K | Preview | $0.02 per image |
+| `imagen-4.0-generate-001` | text | Up to 2K | Preview | $0.04 per image |
+| `imagen-4.0-ultra-generate-001` | text | Up to 2K | Preview | $0.06 per image |
+| `gemini-3.1-flash-image-preview` | text, image | Up to 4K | Preview | Input: $0.50/MTok<br>Output: $60.00/MTok (~$0.045-$0.151/img) |
+| `gemini-3-pro-image-preview` | text, image | Up to 4K | Preview | Input: $2.00/MTok (~$0.0011/img)<br>Output: $120.00/MTok (~$0.134-$0.24/img) |
+| `gemini-2.5-flash-image` | text, image | Up to 1K | Preview | Input: $0.30/MTok<br>Output: $30.00/MTok (~$0.039/img) |
 
-### Video Generation
+### Video & Music Generation
 
-| Model | Quality | Price per Second |
-| --- | --- | --- |
-| `veo-3.1-lite-generate-preview` | 720p | $0.05 |
-| `veo-3.1-lite-generate-preview` | 1080p | $0.08 |
-| `veo-3.1-fast-generate-preview` | 720p | $0.10 |
-| `veo-3.1-fast-generate-preview` | 1080p | $0.12 |
-| `veo-3.1-fast-generate-preview` | 4K | $0.30 |
-| `veo-3.1-generate-preview` | 720p/1080p | $0.40 |
-| `veo-3.1-generate-preview` | 4K | $0.60 |
-| `veo-3.0-fast-generate-001` | 720p | $0.10 |
-| `veo-3.0-fast-generate-001` | 1080p | $0.12 |
-| `veo-3.0-fast-generate-001` | 4K | $0.30 |
-| `veo-3.0-generate-001` | All | $0.40 |
-| `veo-2.0-generate-001` | All | $0.35 |
+| Model ID | Category | Max Duration | Resolution | Pricing |
+| :--- | :--- | :--- | :--- | :--- |
+| `veo-3.1-generate-preview` | Video | — | 720p, 1080p, 4K | $0.40/sec (720p/1080p), $0.60/sec (4K) |
+| `veo-3.1-fast-generate-preview` | Video | — | 720p, 1080p, 4K | $0.10/sec (720p), $0.12/sec (1080p), $0.30/sec (4K) |
+| `veo-3.1-lite-generate-preview` | Video | — | 720p, 1080p | $0.05/sec (720p), $0.08/sec (1080p) |
+| `veo-3.0-generate-001` | Video | — | — | $0.40/sec |
+| `veo-2.0-generate-001` | Video | — | — | $0.35/sec |
+| `lyria-3-pro-preview` | Music | Full Song | — | $0.08 per song |
+| `lyria-3-clip-preview` | Music | 30s | — | $0.04 per song |
 
-### Audio and Speech
+### Embeddings & Specialized
 
-| Model | Modality | Input | Output |
-| --- | --- | --- | --- |
-| `gemini-3.1-flash-live-preview` | Text | $0.75 / 1M tokens | $4.50 / 1M tokens |
-| `gemini-3.1-flash-live-preview` | Audio | $3.00 / 1M tokens ($0.005/min) | $12.00 / 1M tokens ($0.018/min) |
-| `gemini-3.1-flash-live-preview` | Image/Video | $1.00 / 1M tokens ($0.002/min) | - |
-| `gemini-2.5-flash-native-audio-preview-12-2025` | Text | $0.50 / 1M tokens | $2.00 / 1M tokens |
-| `gemini-2.5-flash-native-audio-preview-12-2025` | Audio/Video | $3.00 / 1M tokens | $12.00 / 1M tokens (audio) |
-| `gemini-3.1-flash-tts-preview` | Text-to-Speech | $1.00 / 1M tokens | $20.00 / 1M tokens (audio) |
-| `gemini-2.5-pro-preview-tts` | Text-to-Speech | $1.00 / 1M tokens | $20.00 / 1M tokens (audio) |
-| `gemini-2.5-flash-preview-tts` | Text-to-Speech | $0.50 / 1M tokens | $10.00 / 1M tokens (audio) |
+| Model ID | Description | Inputs | Max Input | Pricing |
+| :--- | :--- | :--- | :--- | :--- |
+| `gemini-embedding-2` | Multimodal embedding model | text, image, video, audio, PDF | — | Text: $0.20/MTok, Image: $0.45/MTok, Audio: $6.50/MTok, Video: $12.00/MTok |
+| `gemini-embedding-001` | Text-only embedding model | text | — | $0.15/MTok |
+| `gemini-2.5-computer-use-preview-10-2025` | Browser control and UI automation | text, image | — | Input: $1.25/MTok (≤200k), $2.50/MTok (>200k)<br>Output: $10.00/MTok (≤200k), $15.00/MTok (>200k) |
+| `gemini-robotics-er-1.6-preview` | Embodied reasoning for robotics | text, image, video, audio | — | Input: $1.00/MTok (text/img/vid), $2.00/MTok (audio)<br>Output: $5.00/MTok |
+| `gemini-deep-research-preview` | Agentic multi-step research | text, web | — | Standard Gemini list rates + tool fees |
 
-### Music Generation
+### Deprecated
 
-| Model | Price per Request |
-| --- | --- |
-| `lyria-3-clip-preview` (30s) | $0.04 |
-| `lyria-3-pro-preview` (Full Song) | $0.08 |
-
-### Embeddings
-
-| Model | Modality | Price per 1M Tokens |
-| --- | --- | --- |
-| `gemini-embedding-2` | Text | $0.20 |
-| `gemini-embedding-2` | Image | $0.45 |
-| `gemini-embedding-2` | Audio | $6.50 |
-| `gemini-embedding-2` | Video | $12.00 |
-| `gemini-embedding-001` | Text | $0.15 |
-
-### Specialized Models
-
-| Model | Tier | Input | Output |
-| --- | --- | --- | --- |
-| `gemini-2.5-computer-use-preview-10-2025` | ≤200k tokens | $1.25 / 1M tokens | $10.00 / 1M tokens |
-| `gemini-2.5-computer-use-preview-10-2025` | >200k tokens | $2.50 / 1M tokens | $15.00 / 1M tokens |
-| `gemini-robotics-er-1.6-preview` | Text/Image/Video | $1.00 / 1M tokens | $5.00 / 1M tokens |
-| `gemini-robotics-er-1.6-preview` | Audio | $2.00 / 1M tokens | $5.00 / 1M tokens |
+| Model ID | Retirement Date | Replacement |
+| :--- | :--- | :--- |
+| `gemini-3-pro-preview` | March 9, 2026 (Shut down) | `gemini-3.1-pro-preview` |
+| `gemini-2.0-flash` | June 1, 2026 | `gemini-2.5-flash` |
+| `gemini-2.0-flash-lite` | June 1, 2026 | `gemini-2.5-flash-lite` |
 
 ## Notes
 
-- A free tier is available with limited access to certain models.
-- The Batch API offers a 50% cost reduction on eligible models.
-- Context caching is available on the paid tier for select models, with pricing for cached tokens and a per-hour storage fee.
-- Deprecated models, such as `gemini-2.0-flash`, have scheduled shutdown dates. Users are advised to migrate to newer models to avoid service disruption.
-- Tool usage, such as Google Search or Code Execution, is billed at its own rate in addition to the model's token consumption.
-- Tokens for PDF and other document modalities are billed at the same rate as image tokens.
-- Preview models may have more restrictive rate limits and can change before becoming stable.
+- **Batch Discount**: All models supported by the Batch API receive a 50% cost reduction compared to standard rates.
+- **Free Tier**: Available for developers and small projects. Content submitted via the free tier may be used by Google to improve products. Content in the Paid tier is not used for training.
+- **Context Caching**: Storage is billed at $1.00 to $8.10 per 1,000,000 tokens per hour depending on the model tier. Input tokens for cached content are billed at a significantly lower rate (approx. 10% of standard input).
+- **Grounding Pricing**: 
+    - Gemini 3 series: 5,000 prompts/month free, then $14 per 1,000 Google Search queries.
+    - Gemini 2.5 series: 1,500 RPD free, then $35 per 1,000 grounded prompts for Search and $25 per 1,000 for Maps.
+- **Modality Billing**: PDF documents are billed at the image token rate. Audio is billed at a rate corresponding to 25 tokens per second.
+- **Thinking Tokens**: For models with reasoning capabilities (e.g., Gemini 2.5 Flash), thinking tokens are billed at the standard output token rate.
+- **Rate Limits**: Free tier limits are typically 15 RPM / 1M TPM / 1,500 RPD for Flash models. Paid tier limits scale from Tier 1 to Tier 5 based on usage and payment history.
+- **Regional Availability**: Google AI Studio usage is free in all available regions; Vertex AI offers regional data residency options for enterprise customers.
