@@ -1,7 +1,7 @@
 ---
 provider: Mistral
 slug: mistral
-last_updated: 2026-05-19T12:31:46Z
+last_updated: 2026-06-22T08:17:54Z
 sources:
   - https://docs.mistral.ai/getting-started/models/models_overview/
 ---
@@ -10,96 +10,83 @@ sources:
 
 # Mistral
 
-**Sources:** [docs.mistral.ai/getting-started/models/models_overview](https://docs.mistral.ai/getting-started/models/models_overview/)  ·  **Updated:** `2026-05-19T12:31:46Z`
+**Sources:** [docs.mistral.ai/getting-started/models/models_overview](https://docs.mistral.ai/getting-started/models/models_overview/)  ·  **Updated:** `2026-06-22T08:17:54Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
 ## Models
 
-### Frontier Models
+### Frontier Models (Generalist)
 
-| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages | Capabilities | Latency tier / SLA | Rate limits | Pricing |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `Mistral Large 3` | v25.12 | text, image | text | — | — | — | Stable | — | multimodal | — | see Notes | — |
-| `Devstral 2` | v25.12 | code | text | — | — | — | Stable | — | code generation | — | see Notes | — |
-| `Mistral Medium 3.5` | v3.5 | text, image | text | — | — | — | Stable | — | multimodal, coding | — | see Notes | — |
-| `Mistral Small 4` | v26.03 | text | text | — | — | — | Stable | — | instruct, reasoning, coding | — | see Notes | — |
-| `Mistral Medium 3.1` | v25.08 | text, image | text | — | — | — | Preview | — | multimodal | — | see Notes | — |
-| `Ministral 3 14B` | v25.12 | text, image | text | — | — | — | Stable | — | vision | — | see Notes | — |
-| `Ministral 3 8B` | v25.12 | text, image | text | — | — | — | Stable | — | vision | — | see Notes | — |
-| `Ministral 3 3B` | v25.12 | text, image | text | — | — | — | Stable | — | vision | — | see Notes | — |
-| `Magistral Medium 1.2` | v25.09 | text, image | text | — | — | — | Preview | — | multimodal, reasoning | — | see Notes | — |
+Versatile, high-performing models suitable for a broad range of tasks, including text and vision processing.
+
+| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages | Capabilities | Latency tier / SLA | Pricing (Input/Output per MTok) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `mistral-medium-2604` | `mistral-medium-latest` | text, image | text | — | — | — | Stable | — | multimodal, agentic, coding, function calling, structured outputs, streaming, system instructions | Standard | — |
+| `mistral-small-2603` | `mistral-small-latest` | text | text | — | — | — | Stable | — | reasoning, instruct, coding, function calling, structured outputs, streaming, system instructions | Standard | — |
+| `mistral-large-2512` | `mistral-large-latest` | text, image | text | — | — | — | Stable | — | multimodal, general-purpose, function calling, structured outputs, streaming, system instructions | Standard | — |
+| `ministral-3-14b-2512` | — | text, image | text | — | — | — | Stable | — | vision, text, function calling, structured outputs, streaming, system instructions | Standard | — |
+| `ministral-3-8b-2512` | — | text, image | text | — | — | — | Stable | — | vision, text, function calling, structured outputs, streaming, system instructions | Standard | — |
+| `ministral-3-3b-2512` | — | text, image | text | — | — | — | Stable | — | vision, text, function calling, structured outputs, streaming, system instructions | Standard | — |
 
 ### Specialist Models
 
-| Model ID | Description | Inputs | Outputs | Release stage |
+Models optimized for specific domains such as coding, OCR, or moderation.
+
+| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages | Capabilities | Latency tier / SLA | Pricing (Input/Output per MTok) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `codestral-2508` | `codestral-latest` | text, code | text, code | — | — | — | Stable | — | code completion, function calling, structured outputs, streaming, system instructions | Standard | — |
+| `devstral-2-2512` | — | text, code | text, code | — | — | — | Stable | — | code agents, software engineering tasks, function calling, structured outputs, streaming | Standard | — |
+| `ocr-3-2512` | `mistral-ocr-latest` | image, PDF | text, JSON | — | — | — | Stable | — | OCR, document understanding, structured outputs | Standard | — |
+| `mistral-moderation-2603` | `mistral-moderation-latest` | text | text | 128,000 | — | — | Stable | Multilingual | jailbreaking detection, multilingual moderation, structured outputs | Standard | — |
+
+### Audio Models
+
+Models designed for speech-to-text (STT), text-to-speech (TTS), and audio understanding.
+
+| Model ID | Direction | Supported Languages | Release stage | Capabilities | Pricing |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `voxtral-tts-2603` | text-to-audio | Multilingual | Stable | zero-shot voice cloning, multilingual support | — |
+| `voxtral-mini-transcribe-2602` | audio-to-text | — | Stable | transcription, audio input | — |
+| `voxtral-mini-transcribe-realtime-2602` | audio-to-text | — | Stable | live transcription, realtime audio API | — |
+| `voxtral-small-2507` | audio-to-text | — | Stable | audio input for instruct use cases | — |
+
+### Embeddings
+
+| Model ID | Output Dimensions | Max Input Tokens | Supported Modalities | Price per MTok |
 | :--- | :--- | :--- | :--- | :--- |
-| `Voxtral TTS` | Text-to-speech with zero-shot voice cloning and multilingual support. | text | audio | Stable |
-| `Leanstral` | Open-source code agent for Lean 4 formal proof engineering. | code | text | Experimental |
-| `OCR 3` | OCR service for Document AI. | image | text | Preview |
-| `Voxtral Mini Transcribe 2` | Speech-to-text optimized for transcription. | audio | text | Preview |
-| `Voxtral Mini Transcribe Realtime` | Speech-to-text optimized for live transcription. | audio | text | Stable |
-| `Codestral` | Language model for code completion. | code | text | Preview |
-| `Voxtral Small` | Model with audio input capabilities for instruct use cases. | audio | text | Stable |
-| `Mistral Moderation 2` | Moderation model with 128k context window and jailbreaking detection. | text | text | Preview |
-
-### Embedding Models
-
-| Model ID | Description | Inputs | Output Dimensions | Max Input Tokens |
-| :--- | :--- | :--- | :--- | :--- |
-| `Codestral Embed` | Semantic representation for code extracts. | code | — | — |
-| `Mistral Embed` | Semantic representation for code extracts. | code | — | — |
-
-### Other Models
-
-| Model ID | Aliases / snapshots | Inputs | Outputs | Release stage |
-| :--- | :--- | :--- | :--- | :--- |
-| `Mistral Medium 3` | v25.05 | text, image | text | Preview |
-| `Mistral Nemo 12B` | v24.07 | text | text | Stable |
+| `mistral-embed-2312` | — | — | text | — |
+| `codestral-embed-2505` | — | — | code, text | — |
 
 ### Deprecated Models
 
-| Model ID | API ID | Deprecation Date | Retirement Date | Alternative |
-| :--- | :--- | :--- | :--- | :--- |
-| `Mistral Small 3.2` | `mistral-small-2506` | Apr 30, 2026 | Jul 31, 2026 | `Mistral Small 4` |
-| `Magistral Medium 1.1` | `magistral-medium-2507` | Oct 31, 2025 | Nov 30, 2025 | `Magistral Medium 1.2` |
-| `Mistral Small Creative` | `labs-mistral-small-creative` | Mar 31, 2026 | Apr 30, 2026 | `Mistral Nemo 12B` |
-| `Devstral Small 2` | `labs-devstral-small-2512` | Feb 27, 2026 | Mar 31, 2026 | `Devstral 2` |
-| `Magistral Small 1.2` | `magistral-small-2509` | Apr 30, 2026 | Jul 31, 2026 | `Mistral Small 4` |
-| `Magistral Small 1.1` | `magistral-small-2507` | Oct 31, 2025 | Nov 30, 2025 | `Magistral Small 1.2` |
-| `Voxtral Mini` | `voxtral-mini-2507` | Feb 27, 2026 | May 31, 2026 | `Voxtral Mini Transcribe 2` |
-| `Devstral Medium 1.0` | `devstral-medium-2507` | Feb 27, 2026 | May 31, 2026 | `Devstral 2` |
-| `Devstral Small 1.1` | `devstral-small-2507` | Feb 27, 2026 | May 31, 2026 | `Devstral 2` |
-| `Magistral Medium 1.0` | `magistral-medium-2506` | Oct 31, 2025 | Nov 30, 2025 | `Magistral Medium 1.2` |
-| `Magistral Small 1.0` | `magistral-small-2506` | Oct 31, 2025 | Nov 30, 2025 | `Magistral Small 1.2` |
-| `OCR 2` | `mistral-ocr-2505` | Feb 27, 2026 | May 31, 2026 | `OCR 3` |
-| `Devstral Small 1.0` | `devstral-small-2505` | Oct 31, 2025 | Nov 30, 2025 | `Devstral Small 2` |
-| `Mistral Small 3.1` | `mistral-small-2503` | Nov 6, 2025 | Nov 30, 2025 | `Mistral Small 3.2` |
-| `OCR` | `mistral-ocr-2503` | Dec 2, 2025 | Dec 31, 2025 | `OCR 3` |
-| `Mistral Saba` | `mistral-saba-2502` | Jun 10, 2025 | Sep 30, 2025 | `Mistral Small 3.2` |
-| `Mistral Small 3.0` | `mistral-small-2501` | Nov 6, 2025 | Nov 30, 2025 | `Mistral Small 3.2` |
-| `Codestral` | `codestral-2501` | Nov 6, 2025 | Nov 30, 2025 | `Codestral` |
-| `Mistral Large 2.1` | `mistral-large-2411` | Feb 27, 2026 | May 31, 2026 | `Mistral Large 3` |
-| `Pixtral Large` | `pixtral-large-2411` | Feb 27, 2026 | May 31, 2026 | `Mistral Large 3` |
-| `Mistral Moderation` | `mistral-moderation-2411` | Mar 31, 2026 | Jun 30, 2026 | `Mistral Moderation 2` |
-| `Ministral 3B` | `ministral-3b-2410` | Dec 2, 2025 | Dec 31, 2025 | `Ministral 3 3B` |
-| `Ministral 8B` | `ministral-8b-2410` | Dec 2, 2025 | Dec 31, 2025 | `Ministral 3 8B` |
-| `Mistral Small 2.0` | `mistral-small-2409` | Nov 6, 2025 | Nov 30, 2025 | `Mistral Small 3.2` |
-| `Pixtral 12B` | `pixtral-12b-2409` | Dec 2, 2025 | Dec 31, 2025 | `Ministral 3 14B` |
-| `Mistral Large 2.0` | `mistral-large-2407` | Nov 30, 2024 | Mar 30, 2025 | `Mistral Large 3` |
-| `Codestral Mamba 7B` | `open-codestral-mamba` | Jun 6, 2025 | Jun 6, 2025 | `Codestral` |
-| `Codestral` | `codestral-2405` | Dec 2, 2024 | Jun 16, 2025 | `Codestral` |
-| `Mistral 7B` | `open-mistral-7b` | Nov 30, 2024 | Mar 30, 2025 | `Ministral 3 8B` |
-| `Mixtral 8x22B` | `open-mixtral-8x22b` | Nov 30, 2024 | Mar 30, 2025 | `Mistral Small 3.2` |
-| `Mistral Small 1.0` | `mistral-small-2402` | Nov 30, 2024 | Jun 16, 2025 | `Mistral Small 3.2` |
-| `Mistral Large 1.0` | `mistral-large-2402` | Nov 30, 2024 | Jun 16, 2025 | `Mistral Large 3` |
-| `Mistral Medium 1.0` | `mistral-medium-2312` | Nov 30, 2024 | Jun 16, 2025 | `Mistral Medium 3.1` |
-| `Mixtral 8x7B` | `open-mixtral-8x7b` | Nov 30, 2024 | Mar 30, 2025 | `Mistral Small 3.2` |
+Models that have been superseded and are scheduled for retirement.
+
+| Model ID | Retirement Date | Alternative |
+| :--- | :--- | :--- |
+| `labs-leanstral-2603` | June 30, 2026 | — |
+| `mistral-medium-2508` | August 31, 2026 | `mistral-medium-2604` |
+| `mistral-small-2506` | July 31, 2026 | `mistral-small-2603` |
+| `devstral-2512` | July 31, 2026 | `mistral-medium-2604` |
+| `magistral-medium-2509` | July 31, 2026 | `mistral-medium-2604` |
+| `magistral-small-2509` | July 31, 2026 | `mistral-small-2603` |
+| `mistral-medium-2505` | August 31, 2026 | `mistral-medium-2604` |
+| `mistral-moderation-2411` | June 30, 2026 | `mistral-moderation-2603` |
+| `open-mistral-nemo-2407` | July 31, 2026 | `ministral-3-8b-2512` |
+| `mistral-large-2411` | May 31, 2026 | `mistral-medium-2604` |
+| `pixtral-large-2411` | May 31, 2026 | `mistral-medium-2604` |
+| `voxtral-mini-2507` | May 31, 2026 | `voxtral-mini-transcribe-2602` |
+| `devstral-medium-2507` | May 31, 2026 | `mistral-medium-2604` |
+| `devstral-small-2507` | May 31, 2026 | `mistral-small-2603` |
+| `mistral-ocr-2505` | May 31, 2026 | `ocr-3-2512` |
 
 ## Notes
 
-*   **Model Tiers**: Models are designated as "Premier", "Open", or "Labs", but the specific implications of these tiers are not detailed in the overview documentation.
-*   **Model Naming**: Model versions are included in the name, for example, `v26.03` for `Mistral Small 4`.
-*   **API IDs**: For deprecated models, a specific API ID (e.g., `mistral-small-2506`) is listed. These are not provided for current models in the overview.
-*   **Rate Limits**: Per-model rate limit information is not available in the models overview.
-*   **Pricing**: Detailed pricing information is not available in the models overview.
+- **Prompt Caching**: Mistral supports prompt caching for repeated context. Cached tokens are typically billed at a discounted rate, though exact 2026 pricing is not published in the overview.
+- **Rate Limit Tiers**: Mistral uses a tiered system (Free, Tier 1, Tier 2, Tier 3, Tier 4) based on usage and payment history. Limits are applied per model and per tier.
+- **Regional Availability**: Models are available via Mistral's La Plateforme and through cloud partners including AWS (Bedrock), Azure (AI Studio), GCP (Vertex AI), and IBM.
+- **Data Residency**: Mistral offers regional endpoints to comply with data residency requirements, particularly for European customers.
+- **Fine-tuning**: Fine-tuning is available for select models (e.g., Mistral Small, Mistral NeMo) via the Mistral API.
+- **Vibe Platform**: Mistral's "Vibe" product serves as a unified agent for productivity and coding, utilizing the latest frontier models.
+- **Organization Management**: Organization setup, billing, SSO, and Workspaces are managed through the Admin Panel.
+- **Deprecation Policy**: Mistral typically provides a deprecation period of several months before a model is retired, as seen in the retirement schedule for 2024-2025 models.
