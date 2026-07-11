@@ -1,16 +1,17 @@
 ---
 provider: xAI
 slug: xai
-last_updated: 2026-07-06T07:45:11Z
+last_updated: 2026-07-11T07:17:09Z
 sources:
   - https://docs.x.ai/docs/models
+  - https://docs.x.ai/developers/grok-4-5
 ---
 
 [← Home](../) · [Anthropic](anthropic.md) · [OpenAI](openai.md) · [Google](google.md) · **xAI** · [DeepSeek](deepseek.md) · [Mistral](mistral.md)
 
 # xAI (Grok)
 
-**Sources:** [docs.x.ai/docs/models](https://docs.x.ai/docs/models)  ·  **Updated:** `2026-07-06T07:45:11Z`
+**Sources:** [docs.x.ai/docs/models](https://docs.x.ai/docs/models)  ·  **Updated:** `2026-07-11T07:17:09Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
@@ -18,10 +19,11 @@ sources:
 
 ### Chat & Reasoning
 
-Models designed for general-purpose conversation, complex reasoning, and multi-modal understanding. Grok 4.3 is the flagship model for intelligence and speed, while Grok 4.20 introduces advanced reasoning capabilities with specific constraints on logprobs.
+Models designed for general-purpose conversation, complex reasoning, and multi-modal understanding. Grok 4.5 is the flagship model, while Grok 4.3 is the previous flagship and Grok 4.20 introduces advanced reasoning capabilities with specific constraints on logprobs.
 
 | Model ID | Aliases / Snapshots | Inputs | Outputs | Context Window | Max Output | Knowledge Cutoff | Release Stage | Languages | Capabilities | Latency Tier / SLA | Rate Limits | Pricing (per 1M tokens) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `grok-4.5` | `grok-4.5-latest` | text, image | text | 500,000 (requests above 200,000 tokens billed at higher-context rates) | — | — | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, reasoning (configurable, supports non-reasoning and reasoning modes), vision, agentic tool calling | Standard, Priority, Batch | see Notes | Input: $2.00<br>Output: $6.00<br>Cached input: $0.50 |
 | `grok-4.3` | `grok-4.3-latest`, `grok-4.3-20260529` | text, image | text | 1,048,576 | — | Nov 2024 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, reasoning (configurable), vision, multi-agent | Standard, Priority, Batch | see Notes | Input: $1.25<br>Output: $2.50 |
 | `grok-4.20` | `grok-4.20-latest` | text, image | text | 1,048,576 | — | Nov 2024 | Preview | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, reasoning, vision, multi-agent, Not: logprobs | Standard, Priority, Batch | see Notes | Input: $1.25<br>Output: $2.50 |
 | `grok-3` | `grok-3-latest` | text, image | text | — | — | Nov 2024 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, vision | Standard, Priority, Batch | see Notes | — |
@@ -67,6 +69,7 @@ Models that have been superseded by newer generations and are scheduled for reti
 
 ## Notes
 
+- **grok-4.5 Higher-Context Billing**: Requests above 200,000 tokens are billed at higher-context rates.
 - **Knowledge Cutoff**: All Grok 3 and Grok 4 generation models have a reliable knowledge cutoff of November 2024. Real-time data access requires enabling `Web Search` or `X Search` tools.
 - **Prompt Caching**: Supported on all Grok 4 and Grok Build models. Caching reduces latency and cost for repeated context; specific TTL and discount rates are applied automatically based on usage patterns.
 - **Batch API**: Offers a 50% discount on standard inference rates for non-urgent workloads processed within 24 hours.
