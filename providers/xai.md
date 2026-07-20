@@ -1,80 +1,68 @@
 ---
 provider: xAI
 slug: xai
-last_updated: 2026-07-11T07:17:09Z
+last_updated: 2026-07-20T09:24:02Z
 sources:
   - https://docs.x.ai/docs/models
-  - https://docs.x.ai/developers/grok-4-5
 ---
 
 [← Home](../) · [Anthropic](anthropic.md) · [OpenAI](openai.md) · [Google](google.md) · **xAI** · [DeepSeek](deepseek.md) · [Mistral](mistral.md)
 
 # xAI (Grok)
 
-**Sources:** [docs.x.ai/docs/models](https://docs.x.ai/docs/models)  ·  **Updated:** `2026-07-11T07:17:09Z`
+**Sources:** [docs.x.ai/docs/models](https://docs.x.ai/docs/models)  ·  **Updated:** `2026-07-20T09:24:02Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
 ## Models
 
 ### Chat & Reasoning
+Flagship models designed for complex reasoning, coding, and agentic tasks. These models support multimodal inputs and advanced tool use.
 
-Models designed for general-purpose conversation, complex reasoning, and multi-modal understanding. Grok 4.5 is the flagship model, while Grok 4.3 is the previous flagship and Grok 4.20 introduces advanced reasoning capabilities with specific constraints on logprobs.
+| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `grok-4.5` | `grok-4.5-latest`, `grok-4.5-stable` | `text`, `image`, `PDF`, `code` | `text` | 500,000 | — | Feb 2026 | Stable | — |
 
-| Model ID | Aliases / Snapshots | Inputs | Outputs | Context Window | Max Output | Knowledge Cutoff | Release Stage | Languages | Capabilities | Latency Tier / SLA | Rate Limits | Pricing (per 1M tokens) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `grok-4.5` | `grok-4.5-latest` | text, image | text | 500,000 (requests above 200,000 tokens billed at higher-context rates) | — | — | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, reasoning (configurable, supports non-reasoning and reasoning modes), vision, agentic tool calling | Standard, Priority, Batch | see Notes | Input: $2.00<br>Output: $6.00<br>Cached input: $0.50 |
-| `grok-4.3` | `grok-4.3-latest`, `grok-4.3-20260529` | text, image | text | 1,048,576 | — | Nov 2024 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, reasoning (configurable), vision, multi-agent | Standard, Priority, Batch | see Notes | Input: $1.25<br>Output: $2.50 |
-| `grok-4.20` | `grok-4.20-latest` | text, image | text | 1,048,576 | — | Nov 2024 | Preview | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, reasoning, vision, multi-agent, Not: logprobs | Standard, Priority, Batch | see Notes | Input: $1.25<br>Output: $2.50 |
-| `grok-3` | `grok-3-latest` | text, image | text | — | — | Nov 2024 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, web search, X search, vision | Standard, Priority, Batch | see Notes | — |
+| Model ID | Capabilities | Latency tier / SLA | Rate limits | Pricing (Input / Output per MTok) |
+| :--- | :--- | :--- | :--- | :--- |
+| `grok-4.5` | `function calling`, `structured outputs`, `streaming`, `system instructions`, `prompt caching`, `batch`, `code execution`, `web search`, `X search`, `vision`, `reasoning` (configurable), `context compaction`, `priority processing`, `agentic tool calling`, `file search` | `Standard`, `Priority` | see Notes | $2.00 / $6.00 |
 
-### Specialized
+### Voice & Audio
+Dedicated APIs for real-time voice interaction, speech-to-text (STT), and text-to-speech (TTS).
 
-Models optimized for specific workflows, such as agentic coding or high-efficiency tasks.
-
-| Model ID | Aliases / Snapshots | Inputs | Outputs | Context Window | Max Output | Knowledge Cutoff | Release Stage | Languages | Capabilities | Latency Tier / SLA | Rate Limits | Pricing (per 1M tokens) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `grok-build-0.1` | `grok-build-latest` | text, code | text, code | 262,144 | — | Nov 2024 | Stable | — | agentic coding, function calling, code execution, streaming, system instructions, prompt caching, batch, context compaction | Standard, Priority, Batch | see Notes | Input: $1.00<br>Output: $2.00 |
+| Model ID | Direction | Supported languages | Pricing |
+| :--- | :--- | :--- | :--- |
+| `grok-voice-agent` | Real-time conversation | — | $3.00 / hour |
+| `grok-tts` | Text-to-Speech | — | $15.00 / 1M characters |
+| `grok-stt` | Speech-to-Text (Batch) | — | $0.10 / hour |
+| `grok-stt-streaming` | Speech-to-Text (Streaming) | — | $0.20 / hour |
 
 ### Image & Video
+The Imagine API provides high-performance generation and editing capabilities for visual media.
 
-The Imagine API provides industry-leading speeds for generating and editing visual content.
-
-| Model ID | Inputs | Output Resolution(s) | Price |
+| Model ID | Inputs | Output resolution(s) | Price |
 | :--- | :--- | :--- | :--- |
-| `grok-imagine` | text, image | 1K, 2K | $0.02 / image |
-| `grok-video` | text, image | 480p, 720p, 1080p | $0.05 / second |
-
-### Voice
-
-The Voice API supports real-time conversational agents and high-fidelity speech processing.
-
-| Model ID | Direction | Supported Languages | Price |
-| :--- | :--- | :--- | :--- |
-| `grok-voice-agent` | bidirectional | — | $3.00 / hour |
-| `grok-tts` | text-to-speech | — | $15.00 / 1M characters |
-| `grok-stt-batch` | speech-to-text | — | $0.10 / hour |
-| `grok-stt-streaming` | speech-to-text | — | $0.20 / hour |
+| `grok-imagine` | `text`, `image` | 1K, 2K | $0.02 / image |
+| `grok-video` | `text`, `image` | 480p, 720p, 1080p | $0.05 / second |
 
 ### Deprecated
-
-Models that have been superseded by newer generations and are scheduled for retirement.
+Models that have been retired or are scheduled for shutdown.
 
 | Model ID | Retirement Date | Replacement |
 | :--- | :--- | :--- |
-| `grok-2-1212` | May 15, 2026 | `grok-4.3` |
-| `grok-2-mini-1212` | May 15, 2026 | `grok-build-0.1` |
-| `grok-beta` | May 15, 2026 | `grok-4.3` |
-| `grok-vision-beta` | May 15, 2026 | `grok-4.3` |
+| `grok-2` | May 15, 2026 | `grok-4.5` |
+| `grok-2-vision` | May 15, 2026 | `grok-4.5` |
+| `grok-3` | May 15, 2026 | `grok-4.5` |
+| `grok-beta` | May 15, 2026 | `grok-4.5` |
+| `multi-agent-completions` | — | `grok-4.5` |
 
 ## Notes
 
-- **grok-4.5 Higher-Context Billing**: Requests above 200,000 tokens are billed at higher-context rates.
-- **Knowledge Cutoff**: All Grok 3 and Grok 4 generation models have a reliable knowledge cutoff of November 2024. Real-time data access requires enabling `Web Search` or `X Search` tools.
-- **Prompt Caching**: Supported on all Grok 4 and Grok Build models. Caching reduces latency and cost for repeated context; specific TTL and discount rates are applied automatically based on usage patterns.
-- **Batch API**: Offers a 50% discount on standard inference rates for non-urgent workloads processed within 24 hours.
-- **Rate Limit Tiers**: xAI uses a tiered system (Tier 1 through Tier 5) based on monthly spend. Limits are applied per-model and per-tier. For example, Tier 1 typically starts at 1,000 RPM while Tier 5 supports enterprise-scale throughput.
-- **Image Input Specs**: Maximum image size is 20MiB. Supported formats include `jpg`, `jpeg`, and `png`. There is no limit on the number of images per request.
-- **Logprobs**: Starting with `grok-4.20`, `logprobs` and `top_logprobs` are no longer supported and will be silently ignored if included in the request.
-- **Reasoning Configuration**: Grok 4.3 supports configurable reasoning, allowing developers to adjust the depth of internal "thinking" steps for complex problem-solving.
-- **Model Aliases**: The dateless ID (e.g., `grok-4.3`) points to the latest stable version. The `-latest` suffix points to the absolute newest release, including experimental updates. Dated snapshots (e.g., `grok-4.3-20260529`) are pinned for consistency.
+- **Batch API**: Offers a 50% discount on standard pricing for requests processed within 24 hours.
+- **Prompt Caching**: Supports automatic caching of frequently used context. Cache hits are billed at a 50% discount ($1.00 / 1M tokens for `grok-4.5`).
+- **Rate Limits**: Tiers are based on monthly spend. Tier 1 (Trial): 100 RPM / 100,000 TPM. Tier 2: 500 RPM / 500,000 TPM. Tier 3: 1,000 RPM / 1,000,000 TPM. Tier 4: 2,000 RPM / 2,000,000 TPM. Tier 5: 5,000 RPM / 5,000,000 TPM.
+- **Context Compaction**: A feature that automatically optimizes long-context windows to reduce token usage and improve performance.
+- **Priority Processing**: A low-latency tier available for production workloads; pricing is typically 2x the standard rate for guaranteed throughput.
+- **Vision Specs**: Maximum image size is 20MiB. Supports `jpg`, `jpeg`, and `png`. No limit on the number of images per request.
+- **Search Tools**: Real-time data access requires enabling `web_search` or `x_search` tools; the model has no native knowledge of events post-cutoff.
+- **Logprobs**: Note that `logprobs` and `top_logprobs` are not supported for models `grok-4.20` and newer.
