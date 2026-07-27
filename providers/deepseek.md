@@ -1,7 +1,7 @@
 ---
 provider: DeepSeek
 slug: deepseek
-last_updated: 2026-07-20T09:24:02Z
+last_updated: 2026-07-27T10:00:03Z
 sources:
   - https://api-docs.deepseek.com/quick_start/pricing
 ---
@@ -10,7 +10,7 @@ sources:
 
 # DeepSeek
 
-**Sources:** [api-docs.deepseek.com/quick_start/pricing](https://api-docs.deepseek.com/quick_start/pricing)  ·  **Updated:** `2026-07-20T09:24:02Z`
+**Sources:** [api-docs.deepseek.com/quick_start/pricing](https://api-docs.deepseek.com/quick_start/pricing)  ·  **Updated:** `2026-07-27T10:00:03Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
@@ -18,52 +18,48 @@ sources:
 
 ### Chat & Reasoning
 
-DeepSeek's V4 generation introduces a unified architecture where models support both standard chat and "Thinking Mode" (reasoning) via a single API endpoint. The models feature a massive 1M token context window and significantly increased output limits.
+DeepSeek's fourth-generation models feature a unified architecture that supports both standard chat and high-effort reasoning ("thinking") within the same model ID. These models are accessible via both OpenAI-compatible and Anthropic-compatible API formats.
 
-| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages |
+| Model ID | Aliases | Inputs | Outputs | Context Window | Max Output | Knowledge Cutoff | Release Stage | Languages |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `deepseek-v4-pro` | — | `text` | `text` | 1,048,576 | 384,000 | — | `Stable` | Multilingual |
-| `deepseek-v4-flash` | — | `text` | `text` | 1,048,576 | 384,000 | — | `Stable` | Multilingual |
+| `deepseek-v4-flash` | `deepseek-v4-flash-latest` | `text` | `text` | 1,048,576 | 384,000 | — | Stable | — |
+| `deepseek-v4-pro` | `deepseek-v4-pro-latest` | `text` | `text` | 1,048,576 | 384,000 | — | Stable | — |
 
-| Model ID | Capabilities | Latency tier / SLA | Rate limits |
+<br>
+
+| Model ID | Capabilities | Latency Tier | Rate Limits (Concurrency) |
 | :--- | :--- | :--- | :--- |
-| `deepseek-v4-pro` | `thinking`, `function calling`, `structured outputs`, `streaming`, `prompt caching`, `chat prefix completion`, `FIM completion` (non-thinking only) | `Standard` | Concurrency: 500 |
-| `deepseek-v4-flash` | `thinking`, `function calling`, `structured outputs`, `streaming`, `prompt caching`, `chat prefix completion`, `FIM completion` (non-thinking only) | `Fast` | Concurrency: 2,500 |
+| `deepseek-v4-flash` | `thinking`, `function calling`, `structured outputs`, `streaming`, `system instructions`, `caching`, `chat prefix completion`, `FIM completion` | Standard | 2,500 |
+| `deepseek-v4-pro` | `thinking`, `function calling`, `structured outputs`, `streaming`, `system instructions`, `caching`, `chat prefix completion`, `FIM completion` | Standard | 500 |
 
 #### Pricing
 
-| Model ID | Tier | Input $/MTok | Cached-input $/MTok | Output $/MTok |
+Prices are in USD per 1 million tokens.
+
+| Model ID | Tier | Input (Cache Miss) | Input (Cache Hit) | Output |
 | :--- | :--- | :--- | :--- | :--- |
-| `deepseek-v4-pro` | Standard | $0.435 | $0.003625 | $0.87 |
 | `deepseek-v4-flash` | Standard | $0.14 | $0.0028 | $0.28 |
+| `deepseek-v4-pro` | Standard | $0.435 | $0.003625 | $0.87 |
 
-### Deprecated
+### Specialized
 
-These models are legacy identifiers that have been mapped to the V4 Flash architecture. They are scheduled for retirement.
+#### Completion (Beta)
 
-| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `deepseek-chat` | Maps to `deepseek-v4-flash` (non-thinking) | `text` | `text` | 65,536 | 8,192 | Oct 2024 | `Deprecated` (2026-07-24) | Multilingual |
-| `deepseek-reasoner` | Maps to `deepseek-v4-flash` (thinking) | `text` | `text` | 65,536 | 8,192 | Oct 2024 | `Deprecated` (2026-07-24) | Multilingual |
+DeepSeek provides specialized endpoints for code-centric tasks like Fill-In-the-Middle (FIM).
 
-| Model ID | Capabilities | Latency tier / SLA | Rate limits |
+| Model ID | Description | Capabilities | Pricing (Input/Output) |
 | :--- | :--- | :--- | :--- |
-| `deepseek-chat` | `function calling`, `structured outputs`, `streaming`, `prompt caching` | `Fast` | see Notes |
-| `deepseek-reasoner` | `thinking`, `streaming`, `prompt caching` | `Moderate` | see Notes |
-
-#### Pricing
-
-| Model ID | Tier | Input $/MTok | Cached-input $/MTok | Output $/MTok |
-| :--- | :--- | :--- | :--- | :--- |
-| `deepseek-chat` | Standard | $0.14 | $0.014 | $0.28 |
-| `deepseek-reasoner` | Standard | $0.55 | $0.14 | $2.19 |
+| `deepseek-v4-flash` | FIM Completion | `FIM completion` (Non-thinking mode only) | Same as Chat |
+| `deepseek-v4-pro` | FIM Completion | `FIM completion` (Non-thinking mode only) | Same as Chat |
 
 ## Notes
 
-- **Prompt Caching**: DeepSeek employs automatic context caching. When a prompt prefix matches a previously cached sequence, the "Cache Hit" price is applied. The discount is approximately 98-99% compared to a cache miss.
-- **Thinking Mode**: For V4 models, "Thinking" (reasoning) is a toggleable mode rather than a separate model. Reasoning tokens generated during this mode are billed at the standard output token rate.
-- **Anthropic Compatibility**: DeepSeek provides an Anthropic-compatible API endpoint at `https://api.deepseek.com/anthropic` for easier migration from Claude models.
-- **Rate Limits**: Beyond the concurrency limits of 2,500 (Flash) and 500 (Pro), DeepSeek uses a tiered system based on account balance. Default limits for new accounts are typically 1,000 RPM and 100K TPM, increasing as the account is topped up.
-- **FIM Completion**: Fill-In-the-Middle (FIM) is supported for code completion tasks but is restricted to non-thinking modes.
+- **Thinking Mode**: DeepSeek V4 models support a "thinking" mode for complex reasoning. This is enabled by default but can be toggled via the `thinking` parameter (e.g., `{"type": "enabled"}`). Users can control reasoning depth using the `reasoning_effort` parameter (`low`, `medium`, `high`).
+- **Prompt Caching**: The system automatically caches frequently used prefixes in 64-token blocks. Cache hits are billed at a significantly reduced rate (approx. 2% of the standard input price for Flash, 0.8% for Pro). There is no manual management required; caching is based on prefix matching.
+- **API Compatibility**: The provider maintains two base URLs:
+    - OpenAI Format: `https://api.deepseek.com`
+    - Anthropic Format: `https://api.deepseek.com/anthropic`
+- **Concurrency Limits**: Unlike traditional RPM/TPM limits, DeepSeek prioritizes concurrency-based limits. `deepseek-v4-flash` allows up to 2,500 concurrent requests, while `deepseek-v4-pro` allows 500.
+- **Billing**: Fees are deducted from a topped-up balance. Granted (free) balances are consumed before paid balances.
+- **FIM Completion**: Fill-In-the-Middle (FIM) is supported for code completion tasks but is restricted to non-thinking mode only.
 - **Chat Prefix Completion**: Supports pre-filling the assistant's response to guide the model's output style or format.
-- **Open Source**: DeepSeek frequently releases model weights (e.g., DeepSeek-V3, DeepSeek-R1) for local hosting, though the API provides the most optimized versions (V4).

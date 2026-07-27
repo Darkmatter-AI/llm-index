@@ -1,7 +1,7 @@
 ---
 provider: OpenAI
 slug: openai
-last_updated: 2026-07-20T09:24:02Z
+last_updated: 2026-07-27T10:00:03Z
 sources:
   - https://openai.com/api/pricing/
   - https://platform.openai.com/docs/models
@@ -11,69 +11,98 @@ sources:
 
 # OpenAI (GPT)
 
-**Sources:** [openai.com/api/pricing](https://openai.com/api/pricing/), [platform.openai.com/docs/models](https://platform.openai.com/docs/models)  ·  **Updated:** `2026-07-20T09:24:02Z`
+**Sources:** [openai.com/api/pricing](https://openai.com/api/pricing/), [platform.openai.com/docs/models](https://platform.openai.com/docs/models)  ·  **Updated:** `2026-07-27T10:00:03Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
 ## Models
 
-### Frontier
+### Reasoning
 
-The GPT-5.6 series represents the latest generation of frontier models, featuring a unified 1.05M context window and advanced reasoning capabilities. All models in this series support multimodal inputs and "Computer Use" for direct interaction with digital interfaces.
+These models are designed for complex, multi-step problems and STEM use cases, utilizing advanced reasoning to think before responding.
 
-| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `gpt-5.6-sol` | `gpt-5.6` | text, image, audio, video, code | text, audio, image | 1,050,000 | 128,000 | Feb 2026 | Stable | Multilingual |
-| `gpt-5.6-terra` | — | text, image, audio, video, code | text, audio, image | 1,050,000 | 128,000 | Feb 2026 | Stable | Multilingual |
-| `gpt-5.6-luna` | — | text, image, audio, video, code | text, audio, image | 1,050,000 | 128,000 | Feb 2026 | Stable | Multilingual |
-| `gpt-5.5-instant` | — | text, image, audio, video, code | text, audio, image | 128,000 | — | — | Stable | Multilingual |
+| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages | Capabilities | Latency tier / SLA | Pricing (per MTok) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `gpt-5.6-sol` | `gpt-5.6` | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Priority, Batch, Scale | Input: $5.00<br>Cached: $0.50<br>Output: $30.00 |
+| `gpt-5.6-terra` | — | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Priority, Batch, Scale | Input: $2.50<br>Cached: $0.25<br>Output: $15.00 |
+| `gpt-5.6-luna` | — | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Priority, Batch, Scale | Input: $1.00<br>Cached: $0.10<br>Output: $6.00 |
+| `o4-mini` | — | text, image | text | — | — | — | Preview | — | reasoning, vision, function calling, structured outputs | Standard, Batch | — |
+| `o4-mini-deep-research` | — | text, image | text | — | — | — | Preview | — | reasoning, deep research, vision | Standard | — |
+| `o3` | — | text, image | text | — | — | — | Stable | — | reasoning, vision, function calling, structured outputs | Standard, Priority, Batch | — |
+| `o3-deep-research` | — | text, image | text | — | — | — | Stable | — | reasoning, deep research, vision | Standard | — |
+| `o3-pro-2025-06-10` | — | text, image | text | — | — | — | Stable | — | reasoning, vision, function calling | Standard | — |
+| `o1` | — | text, image | text | — | — | — | Stable | — | reasoning, vision, function calling, structured outputs | Standard, Priority, Batch | — |
+| `o1-pro` | — | text, image | text | — | — | — | Stable | — | reasoning, vision, function calling | Standard | — |
 
-| Model ID | Capabilities | Latency tier / SLA | Rate limits | Pricing (Input/Output per MTok) |
-| :--- | :--- | :--- | :--- | :--- |
-| `gpt-5.6-sol` | function calling, web search, file search, computer use, vision, multilingual, structured outputs, streaming, prompt caching, batch | Fastest | see Notes | $5.00 / $30.00 |
-| `gpt-5.6-terra` | function calling, web search, file search, computer use, vision, multilingual, streaming, prompt caching, batch | Fast | see Notes | $2.50 / $15.00 |
-| `gpt-5.6-luna` | function calling, web search, file search, computer use, vision, multilingual, streaming, prompt caching, batch | Moderate | see Notes | $1.00 / $6.00 |
-| `gpt-5.5-instant` | function calling, vision, multilingual, streaming, prompt caching, batch | Fastest | see Notes | — |
+### Chat
+
+General-purpose models optimized for conversation and high-volume tasks.
+
+| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages | Capabilities | Latency tier / SLA | Pricing (per MTok) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `gpt-5.2` | — | text, image | text | — | — | — | Stable | — | function calling, structured outputs, vision | Standard, Batch | — |
+| `gpt-5.1` | — | text, image | text | — | — | — | Stable | — | function calling, structured outputs, vision | Standard, Batch | — |
+| `gpt-5` | — | text, image | text | — | — | — | Stable | — | function calling, structured outputs, vision | Standard, Batch | — |
+| `gpt-5-mini` | — | text, image | text | — | — | — | Stable | — | function calling, structured outputs, vision | Standard, Batch | — |
+| `gpt-5-nano` | — | text, image | text | — | — | — | Stable | — | function calling, structured outputs, vision | Standard, Batch | — |
+| `gpt-4.5-preview` | — | text, image | text | — | — | — | Preview | — | function calling, structured outputs, vision | Standard | — |
+| `gpt-4o` | `gpt-4o-2024-05-13`, `gpt-4o-2024-08-06`, `gpt-4o-2024-11-20` | text, image | text | 128,000 | 16,384 | Oct 2023 | Stable | — | function calling, structured outputs, vision, streaming | Standard, Priority, Batch | — |
+| `gpt-4o-mini` | `gpt-4o-mini-2024-07-18` | text, image | text | 128,000 | 16,384 | Oct 2023 | Stable | — | function calling, structured outputs, vision, streaming | Standard, Priority, Batch | — |
 
 ### Realtime
 
-Models optimized for low-latency, streaming speech-to-speech and multimodal interactions.
+Models designed for low-latency, streaming interactions across multiple modalities.
 
-| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Capabilities |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `gpt-realtime-2.1` | — | text, audio | text, audio | — | — | — | Stable | reasoning, tool use, streaming |
-| `gpt-realtime-2.1-mini` | — | text, audio | text, audio | — | — | — | Stable | reasoning, tool use, streaming |
-| `gpt-realtime-2` | — | text, audio | text, audio | — | — | — | Stable | reasoning, tool use, streaming |
-| `gpt-realtime-translate` | — | audio | audio | — | — | — | Stable | speech-to-speech translation |
-| `gpt-realtime-1.5` | — | audio | audio | — | — | — | Stable | audio in, audio out |
-| `gpt-realtime-mini` | — | text, audio | text, audio | — | — | — | Stable | cost-efficient realtime |
+| Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages | Capabilities | Latency tier / SLA | Pricing (per MTok) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `gpt-realtime-2.1` | — | text, audio, image | text, audio | — | — | — | Stable | — | realtime voice, reasoning, tool use, vision | Standard, Priority | Audio Input: $32.00<br>Audio Output: $64.00<br>Text Input: $4.00<br>Text Output: $24.00<br>Image Input: $5.00 |
+| `gpt-realtime-2.1-mini` | — | text, audio, image | text, audio | — | — | — | Stable | — | realtime voice, reasoning, tool use, vision | Standard, Priority | Audio Input: $10.00<br>Audio Output: $20.00<br>Text Input: $0.60<br>Text Output: $2.40<br>Image Input: $0.80 |
+| `gpt-realtime-2` | — | text, audio | text, audio | — | — | — | Stable | — | realtime voice, reasoning, tool use | Standard | — |
+| `gpt-realtime-1.5` | — | text, audio | text, audio | — | — | — | Stable | — | realtime voice | Standard | — |
 
 ### Image
 
-| Model ID | Inputs | Output resolution(s) | Price per image | Batch discount |
+| Model ID | Inputs | Output Resolution(s) | Price per 1M Tokens | Batch Discount |
 | :--- | :--- | :--- | :--- | :--- |
-| `gpt-image-2` | text, image | — | — | — |
+| `gpt-image-2` | text, image | — | Input: $8.00<br>Cached: $2.00<br>Output: $30.00 | 50% |
+| `dall-e-3` | text | 1024x1024, 1024x1792, 1792x1024 | — | — |
 
-### Audio & Transcription
+### Speech & Audio
 
-| Model ID | Direction | Supported languages | Price per minute / MTok |
+| Model ID | Direction | Supported Languages | Price |
 | :--- | :--- | :--- | :--- |
-| `gpt-realtime-whisper` | STT (Streaming) | — | — |
-| `gpt-4o-transcribe` | STT | — | — |
-| `gpt-4o-mini-transcribe` | STT | — | — |
+| `gpt-realtime-translate` | Speech-to-Speech | — | $0.034 per minute |
+| `gpt-realtime-whisper` | Speech-to-Text | — | $0.017 per minute |
+| `gpt-4o-transcribe` | Speech-to-Text | — | — |
+| `gpt-4o-mini-transcribe` | Speech-to-Text | — | — |
+
+### Specialized
+
+| Model ID | Description | Pricing |
+| :--- | :--- | :--- |
+| `computer-use-preview` | Model capable of controlling a computer interface. | — |
+| `gpt-5-codex` | Specialized model for code generation and engineering. | — |
+| `codex-mini-latest` | Lightweight model for code generation. | — |
+| `web-search` | Tool for grounding responses in live web data. | $10.00 / 1k calls (Content tokens free) |
+| `containers` | Secure environments for code execution. | $0.03 per 1GB (Session-based) |
 
 ### Deprecated
 
-| Model ID | Replacement | Retirement date |
+| Model ID | Replacement | Retirement Date |
 | :--- | :--- | :--- |
+| `gpt-realtime-mini` | `gpt-realtime-2.1-mini` | — |
 | `gpt-4o-mini-tts` | — | — |
 
 ## Notes
 
-- **Prompt Caching**: Automatic caching is enabled for all GPT-5.6 and GPT-5.5 models. Cached input tokens receive a 50% discount compared to standard input pricing.
-- **Batch API**: Asynchronous requests via the Batch API are processed within 24 hours and receive a 50% discount on all token costs.
-- **Data Residency**: OpenAI supports data residency for Enterprise customers in 10 regions: US, EU, UK, JP, CA, KR, SG, IN, AU, and UAE.
-- **Rate Limits**: Limits are determined by organization usage tiers (Tier 1 through Tier 5). Higher tiers provide significantly increased RPM (Requests Per Minute) and TPM (Tokens Per Minute) caps.
-- **Training Policy**: Data submitted via the API is not used to train OpenAI models by default for Business and Enterprise plans.
-- **Computer Use**: The GPT-5.6 series supports "Computer Use" capabilities, allowing the model to perceive and interact with software interfaces via the API.
-- **Context Management**: For ChatGPT-integrated runs, the system manages a shared context window where a portion is reserved for system instructions, memories, and internal reasoning.
+- **Batch Processing**: Offers a 50% discount on input and output tokens for requests processed asynchronously within 24 hours.
+- **Prompt Caching**: Automatically applies to the GPT-5.6 series and Realtime 2.1 models. GPT-5.6 offers a 90% discount for cached input tokens ($0.50 vs $5.00).
+- **Data Residency**: Regional processing and data residency options are available for an additional 10% premium on standard rates.
+- **Service Tiers**:
+    - **Standard**: Default pay-as-you-go tier.
+    - **Priority**: Reliable high-speed performance with flexible pay-as-you-go pricing.
+    - **Flex**: Lower cost for non-production tasks in exchange for slower response times and occasional unavailability.
+    - **Scale / Reserved Capacity**: Enterprise-grade tiers with SLAs and dedicated throughput.
+- **Rate Limits**: Enforced via Usage Tiers (Tier 1 to Tier 5). Limits are model-specific and scale with lifetime spend.
+- **Image Tokenization**: Images are converted into tokens for billing. GPT-5.6 and GPT-Realtime use specific image token rates, while older models use standard text token rates based on resolution.
+- **Knowledge Cutoff**: The latest GPT-5.6 models have a reliable knowledge cutoff of February 16, 2026.
