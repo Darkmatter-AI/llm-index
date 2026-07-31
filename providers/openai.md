@@ -1,17 +1,17 @@
 ---
 provider: OpenAI
 slug: openai
-last_updated: 2026-07-27T10:00:03Z
+last_updated: 2026-07-31T01:00:54Z
 sources:
-  - https://openai.com/api/pricing/
-  - https://platform.openai.com/docs/models
+  - https://developers.openai.com/api/docs/pricing
+  - https://developers.openai.com/api/docs/models
 ---
 
 [← Home](../) · [Anthropic](anthropic.md) · **OpenAI** · [Google](google.md) · [xAI](xai.md) · [DeepSeek](deepseek.md) · [Mistral](mistral.md)
 
 # OpenAI (GPT)
 
-**Sources:** [openai.com/api/pricing](https://openai.com/api/pricing/), [platform.openai.com/docs/models](https://platform.openai.com/docs/models)  ·  **Updated:** `2026-07-27T10:00:03Z`
+**Sources:** [developers.openai.com/api/docs/pricing](https://developers.openai.com/api/docs/pricing), [developers.openai.com/api/docs/models](https://developers.openai.com/api/docs/models)  ·  **Updated:** `2026-07-31T01:00:54Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
@@ -24,8 +24,8 @@ These models are designed for complex, multi-step problems and STEM use cases, u
 | Model ID | Aliases / snapshots | Inputs | Outputs | Context window | Max output | Knowledge cutoff | Release stage | Languages | Capabilities | Latency tier / SLA | Pricing (per MTok) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `gpt-5.6-sol` | `gpt-5.6` | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Priority, Batch, Scale | Input: $5.00<br>Cached: $0.50<br>Output: $30.00 |
-| `gpt-5.6-terra` | — | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Priority, Batch, Scale | Input: $2.50<br>Cached: $0.25<br>Output: $15.00 |
-| `gpt-5.6-luna` | — | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Priority, Batch, Scale | Input: $1.00<br>Cached: $0.10<br>Output: $6.00 |
+| `gpt-5.6-terra` | — | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Fast mode, Batch, Scale | Input: $2.00<br>Cached: $0.20<br>Output: $12.00 |
+| `gpt-5.6-luna` | — | text, image | text | 1,050,000 | 128,000 | Feb 2026 | Stable | — | function calling, structured outputs, streaming, system instructions, prompt caching, batch, code execution, file search, web search, computer use, vision, multilingual | Standard, Fast mode, Batch, Scale | Input: $0.20<br>Cached: $0.02<br>Output: $1.20 |
 | `o4-mini` | — | text, image | text | — | — | — | Preview | — | reasoning, vision, function calling, structured outputs | Standard, Batch | — |
 | `o4-mini-deep-research` | — | text, image | text | — | — | — | Preview | — | reasoning, deep research, vision | Standard | — |
 | `o3` | — | text, image | text | — | — | — | Stable | — | reasoning, vision, function calling, structured outputs | Standard, Priority, Batch | — |
@@ -96,7 +96,7 @@ Models designed for low-latency, streaming interactions across multiple modaliti
 ## Notes
 
 - **Batch Processing**: Offers a 50% discount on input and output tokens for requests processed asynchronously within 24 hours.
-- **Prompt Caching**: Automatically applies to the GPT-5.6 series and Realtime 2.1 models. GPT-5.6 offers a 90% discount for cached input tokens ($0.50 vs $5.00).
+- **Prompt Caching**: Automatically applies to the GPT-5.6 series and Realtime 2.1 models. GPT-5.6 cached input is billed at 10% of standard input: $0.50/$5.00 for Sol, $0.20/$2.00 for Terra, and $0.02/$0.20 for Luna. Cache writes are billed at 1.25x the uncached input rate.
 - **Data Residency**: Regional processing and data residency options are available for an additional 10% premium on standard rates.
 - **Service Tiers**:
     - **Standard**: Default pay-as-you-go tier.

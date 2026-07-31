@@ -13,8 +13,8 @@
     "slug": "openai",
     "label": "GPT",
     "urls": [
-      "https://openai.com/api/pricing/",
-      "https://platform.openai.com/docs/models"
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/models"
     ]
   },
   "google": {
