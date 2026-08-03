@@ -1,7 +1,7 @@
 ---
 provider: DeepSeek
 slug: deepseek
-last_updated: 2026-07-27T10:00:03Z
+last_updated: 2026-08-03T09:55:07Z
 sources:
   - https://api-docs.deepseek.com/quick_start/pricing
 ---
@@ -10,7 +10,7 @@ sources:
 
 # DeepSeek
 
-**Sources:** [api-docs.deepseek.com/quick_start/pricing](https://api-docs.deepseek.com/quick_start/pricing)  ·  **Updated:** `2026-07-27T10:00:03Z`
+**Sources:** [api-docs.deepseek.com/quick_start/pricing](https://api-docs.deepseek.com/quick_start/pricing)  ·  **Updated:** `2026-08-03T09:55:07Z`
 
 > Using Claude Code? [Install the llm-index skill](https://github.com/Darkmatter-AI/llm-index/tree/main/skill) so your agent reads this automatically instead of guessing from training data.
 
@@ -18,48 +18,32 @@ sources:
 
 ### Chat & Reasoning
 
-DeepSeek's fourth-generation models feature a unified architecture that supports both standard chat and high-effort reasoning ("thinking") within the same model ID. These models are accessible via both OpenAI-compatible and Anthropic-compatible API formats.
+DeepSeek V4 introduces a unified architecture supporting both standard chat and high-compute "thinking" (reasoning) modes. These models feature a significantly expanded context window and high-capacity output limits compared to previous generations.
 
-| Model ID | Aliases | Inputs | Outputs | Context Window | Max Output | Knowledge Cutoff | Release Stage | Languages |
+| Model ID | Aliases / Snapshots | Inputs | Outputs | Context Window | Max Output | Knowledge Cutoff | Release Stage | Languages |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `deepseek-v4-flash` | `deepseek-v4-flash-latest` | `text` | `text` | 1,048,576 | 384,000 | — | Stable | — |
-| `deepseek-v4-pro` | `deepseek-v4-pro-latest` | `text` | `text` | 1,048,576 | 384,000 | — | Stable | — |
+| `deepseek-v4-flash` | `DeepSeek-V4-Flash-0731` | text | text | 1,048,576 | 384,000 | — | Stable | — |
+| `deepseek-v4-pro` | `DeepSeek-V4-Pro` | text | text | 1,048,576 | 384,000 | — | Stable | — |
 
-<br>
-
-| Model ID | Capabilities | Latency Tier | Rate Limits (Concurrency) |
+| Model ID | Capabilities | Latency Tier / SLA | Rate Limits |
 | :--- | :--- | :--- | :--- |
-| `deepseek-v4-flash` | `thinking`, `function calling`, `structured outputs`, `streaming`, `system instructions`, `caching`, `chat prefix completion`, `FIM completion` | Standard | 2,500 |
-| `deepseek-v4-pro` | `thinking`, `function calling`, `structured outputs`, `streaming`, `system instructions`, `caching`, `chat prefix completion`, `FIM completion` | Standard | 500 |
+| `deepseek-v4-flash` | thinking, json output, tool calls, responses api, anthropic api, chat prefix completion, fim completion, prompt caching | Standard | Concurrency: 2500 |
+| `deepseek-v4-pro` | thinking, json output, tool calls, anthropic api, chat prefix completion, fim completion, prompt caching | Standard | Concurrency: 500 |
 
-#### Pricing
-
-Prices are in USD per 1 million tokens.
-
-| Model ID | Tier | Input (Cache Miss) | Input (Cache Hit) | Output |
+| Model ID | Tier | Input $/MTok | Cached Input $/MTok | Output $/MTok |
 | :--- | :--- | :--- | :--- | :--- |
-| `deepseek-v4-flash` | Standard | $0.14 | $0.0028 | $0.28 |
-| `deepseek-v4-pro` | Standard | $0.435 | $0.003625 | $0.87 |
-
-### Specialized
-
-#### Completion (Beta)
-
-DeepSeek provides specialized endpoints for code-centric tasks like Fill-In-the-Middle (FIM).
-
-| Model ID | Description | Capabilities | Pricing (Input/Output) |
-| :--- | :--- | :--- | :--- |
-| `deepseek-v4-flash` | FIM Completion | `FIM completion` (Non-thinking mode only) | Same as Chat |
-| `deepseek-v4-pro` | FIM Completion | `FIM completion` (Non-thinking mode only) | Same as Chat |
+| `deepseek-v4-flash` | Standard (Off-peak) | $0.14 | $0.0028 | $0.28 |
+| `deepseek-v4-flash` | Peak (2x) | $0.28 | $0.0056 | $0.56 |
+| `deepseek-v4-pro` | Standard (Off-peak) | $0.435 | $0.003625 | $0.87 |
+| `deepseek-v4-pro` | Peak (2x) | $0.87 | $0.00725 | $1.74 |
 
 ## Notes
 
-- **Thinking Mode**: DeepSeek V4 models support a "thinking" mode for complex reasoning. This is enabled by default but can be toggled via the `thinking` parameter (e.g., `{"type": "enabled"}`). Users can control reasoning depth using the `reasoning_effort` parameter (`low`, `medium`, `high`).
-- **Prompt Caching**: The system automatically caches frequently used prefixes in 64-token blocks. Cache hits are billed at a significantly reduced rate (approx. 2% of the standard input price for Flash, 0.8% for Pro). There is no manual management required; caching is based on prefix matching.
-- **API Compatibility**: The provider maintains two base URLs:
-    - OpenAI Format: `https://api.deepseek.com`
-    - Anthropic Format: `https://api.deepseek.com/anthropic`
-- **Concurrency Limits**: Unlike traditional RPM/TPM limits, DeepSeek prioritizes concurrency-based limits. `deepseek-v4-flash` allows up to 2,500 concurrent requests, while `deepseek-v4-pro` allows 500.
+- **Peak Pricing**: DeepSeek applies a 2x multiplier to all billing items during peak hours: 9:00–12:00 and 14:00–18:00 (Beijing Time, UTC+8) daily.
+- **Prompt Caching**: Caching is automatic and integrated into the pricing model. "Cache Hit" rates apply to tokens already present in the provider's cache from previous requests.
+- **Thinking Mode**: Both V4 models support a "thinking" mode (enabled by default) for complex reasoning tasks. Users can toggle this off for standard low-latency chat.
+- **API Compatibility**: The DeepSeek API provides a native OpenAI-compatible format and a dedicated Anthropic-compatible API endpoint (`https://api.deepseek.com/anthropic`) for easier migration.
+- **Responses API**: The `deepseek-v4-flash` model supports a specialized Responses API for optimized long-form generation; support for the `pro` model is scheduled for early August 2026.
+- **Completion Betas**: Chat Prefix Completion and FIM (Fill-In-the-Middle) Completion are currently in Beta and are only supported in non-thinking mode.
 - **Billing**: Fees are deducted from a topped-up balance. Granted (free) balances are consumed before paid balances.
-- **FIM Completion**: Fill-In-the-Middle (FIM) is supported for code completion tasks but is restricted to non-thinking mode only.
-- **Chat Prefix Completion**: Supports pre-filling the assistant's response to guide the model's output style or format.
+- **Rate Limits**: Limits are primarily managed via concurrency (simultaneous requests) rather than traditional RPM/TPM tiers, with Flash allowing significantly higher throughput than Pro.
