@@ -4,7 +4,7 @@
 #   "google-genai>=1.0.0",
 # ]
 # ///
-"""Weekly updater for provider markdown pages.
+"""Updater for provider markdown pages.
 
 The LLM does the heavy lifting. For each provider:
 
