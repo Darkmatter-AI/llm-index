@@ -26,7 +26,7 @@ Install (user-level, once per machine):
 
 ```bash
 mkdir -p ~/.claude/skills/llm-index
-curl -fsSL https://raw.githubusercontent.com/Darkmatter-AI/llm-index/main/skill/SKILL.md \
+curl -fsSL https://raw.githubusercontent.com/Darkmatter-AI/llm-index/main/skill/skills/llm-index/SKILL.md \
   -o ~/.claude/skills/llm-index/SKILL.md
 ```
 

@@ -6,7 +6,7 @@ Tells Claude Code (and other Anthropic-SDK agents that read SKILL.md files) to c
 
 ```bash
 mkdir -p ~/.claude/skills/llm-index
-curl -fsSL https://raw.githubusercontent.com/darkmatter-ai/llm-index/main/skill/SKILL.md \
+curl -fsSL https://raw.githubusercontent.com/darkmatter-ai/llm-index/main/skill/skills/llm-index/SKILL.md \
   -o ~/.claude/skills/llm-index/SKILL.md
 ```
 
@@ -16,7 +16,7 @@ Restart your Claude Code session. The skill is now listed in `/help` and will ac
 
 ```bash
 mkdir -p .claude/skills/llm-index
-curl -fsSL https://raw.githubusercontent.com/darkmatter-ai/llm-index/main/skill/SKILL.md \
+curl -fsSL https://raw.githubusercontent.com/darkmatter-ai/llm-index/main/skill/skills/llm-index/SKILL.md \
   -o .claude/skills/llm-index/SKILL.md
 ```
 
